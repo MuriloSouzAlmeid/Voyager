@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VoyagerWebApi</name>
+    </assembly>
+    <members>
+        <member name="T:VoyagerWebApi.Migrations.BDVoyager">
+            <inheritdoc />
+        </member>
+        <member name="M:VoyagerWebApi.Migrations.BDVoyager.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:VoyagerWebApi.Migrations.BDVoyager.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:VoyagerWebApi.Migrations.BDVoyager.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

@@ -8,5 +8,8 @@ namespace VoyagerWebApi.Domains
     {
         [Key]
         public Guid ID { get; set; } = Guid.NewGuid();
+
+        [Column(TypeName = "TEXT")]
+        public string? Descricao { get; set; }
     }
 }

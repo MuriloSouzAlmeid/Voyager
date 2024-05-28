@@ -11,5 +11,7 @@ namespace VoyagerWebApi.Domains
 
         [Column(TypeName = "VARCHAR(255)")]
         public string? TipoAtividade { get; set; }
+
+        public List<Planejamentos>? Planejamentos { get; set; }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace VoyagerWebApi.Domains
 {
     [Table("Usuario")]
+    [Index(nameof(Email), IsUnique = true)]
     public class Usuarios
     {
         [Key]
@@ -31,5 +33,17 @@ namespace VoyagerWebApi.Domains
 
         [Column(TypeName = "TEXT")]
         public string? Bio { get; set; }
+
+        public List<Comentarios>? Comentarios { get; set; }
+
+        public List<Avaliacoes>? Avaliacoes { get; set; }
+
+        public Guid IdEnderecoUsuario { get; set; }
+
+        [ForeignKey("IdEnderecoUsuario")]
+        public EnderecosUsuario? EnderecoUsuario { get; set; }
+
+        [Column(TypeName = "INT")]
+        public int? CodRecupSenha { get; set; }
     }
 }

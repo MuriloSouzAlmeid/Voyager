@@ -21,5 +21,7 @@ namespace VoyagerWebApi.Domains
 
         [Column(TypeName = "VARCHAR(255)")]
         public string? Cidade { get; set; }
+
+        public List<Usuarios>? Usuarios { get; set; }
     }
 }
