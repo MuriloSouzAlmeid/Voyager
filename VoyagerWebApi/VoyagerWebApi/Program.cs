@@ -126,20 +126,55 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+
+// Configure EmailSettings
+//builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+
+// Registrando o serviço de e-mail como uma instância transitória, que é criada cada vez que é solicitada
+//builder.Services.AddTransient<IEmailService, EmailService>();
+
+//builder.Services.AddScoped<EmailSendingService>();
+
+
+
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//Habilite o middleware para atender ao documento JSON gerado e à interface do usuário do Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+//Para atender à interface do usuário do Swagger na raiz do aplicativo
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
+
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.UseAuthorization();
 
+app.UseAuthorization();
 
 app.MapControllers();
 
