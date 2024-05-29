@@ -24,6 +24,7 @@ namespace VoyagerWebApi.Domains
 
         public Guid IdUsuario { get; set; }
 
-        public List<Usuarios>? Usuarios { get; set; }
+        [ForeignKey("IdUsuario")]
+        public Usuarios? Usuario { get; set; } 
     }
 }
