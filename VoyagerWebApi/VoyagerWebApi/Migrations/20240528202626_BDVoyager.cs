@@ -83,7 +83,7 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdEnderecoUsuario,
                         principalTable: "EnderecoUsuario",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,13 +120,13 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdPlanejamento,
                         principalTable: "Planejamento",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_PlanejamentoAtividade_TipoAtividade_IdTipoAtividade",
                         column: x => x.IdTipoAtividade,
                         principalTable: "TipoAtividade",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,25 +149,25 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdPlanejamento,
                         principalTable: "Planejamento",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Viagem_StatusViagem_IdStatusViagem",
                         column: x => x.IdStatusViagem,
                         principalTable: "StatusViagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Viagem_TipoViagem_IdTipoViagem",
                         column: x => x.IdTipoViagem,
                         principalTable: "TipoViagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Viagem_Usuario_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuario",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,7 +188,7 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdViagem,
                         principalTable: "Viagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,7 +208,7 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdViagem,
                         principalTable: "Viagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,13 +228,13 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdPostagemViagem,
                         principalTable: "PostagemViagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Avaliacao_Usuario_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuario",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,13 +254,13 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdPostagemViagem,
                         principalTable: "PostagemViagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Comentario_Usuario_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuario",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,7 +279,7 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.IdPostagemViagem,
                         principalTable: "PostagemViagem",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

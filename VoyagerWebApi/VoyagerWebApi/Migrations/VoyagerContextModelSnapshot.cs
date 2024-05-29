@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoyagerWebApi.Contexts;
 
@@ -324,13 +325,13 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.PostagensViagens", "PostagemViagem")
                         .WithMany("Avaliacoes")
                         .HasForeignKey("IdPostagemViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.Usuarios", "Usuario")
                         .WithMany("Avaliacoes")
                         .HasForeignKey("IdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("PostagemViagem");
@@ -343,13 +344,13 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.PostagensViagens", "PostagemViagem")
                         .WithMany("Comentarios")
                         .HasForeignKey("IdPostagemViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.Usuarios", "Usuario")
                         .WithMany("Comentarios")
                         .HasForeignKey("IdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("PostagemViagem");
@@ -362,7 +363,7 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
                         .WithMany()
                         .HasForeignKey("IdViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Viagem");
@@ -373,7 +374,7 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.PostagensViagens", "PostagemViagenm")
                         .WithMany("GaleriaImagens")
                         .HasForeignKey("IdPostagemViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("PostagemViagenm");
@@ -384,13 +385,13 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.Planejamentos", "Planejamentos")
                         .WithMany()
                         .HasForeignKey("IdPlanejamento")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.TiposAtividade", "TipoAtividade")
                         .WithMany()
                         .HasForeignKey("IdTipoAtividade")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Planejamentos");
@@ -410,7 +411,7 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
                         .WithMany()
                         .HasForeignKey("IdViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Viagem");
@@ -421,7 +422,7 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.EnderecosUsuario", "EnderecoUsuario")
                         .WithMany("Usuarios")
                         .HasForeignKey("IdEnderecoUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("EnderecoUsuario");
@@ -432,25 +433,25 @@ namespace VoyagerWebApi.Migrations
                     b.HasOne("VoyagerWebApi.Domains.Planejamentos", "Planejamento")
                         .WithMany()
                         .HasForeignKey("IdPlanejamento")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.StatusViagens", "StatusViagem")
                         .WithMany("Viagens")
                         .HasForeignKey("IdStatusViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.TiposViagem", "TipoViagem")
                         .WithMany("Viagens")
                         .HasForeignKey("IdTipoViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("VoyagerWebApi.Domains.Usuarios", "Usuario")
                         .WithMany()
                         .HasForeignKey("IdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Planejamento");
