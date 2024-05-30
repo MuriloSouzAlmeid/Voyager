@@ -12,7 +12,7 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240529201220_VoyagerBD")]
+    [Migration("20240530210124_VoyagerBD")]
     partial class VoyagerBD
     {
         /// <inheritdoc />
