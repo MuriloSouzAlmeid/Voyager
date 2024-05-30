@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VoyagerWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class BDVoyager : Migration
+    public partial class VoyagerBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "EnderecoUsuario",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Cep = table.Column<string>(type: "VARCHAR(8)", maxLength: 8, nullable: true),
-                    Logradouro = table.Column<string>(type: "VARCHAR(255)", nullable: true),
-                    Estado = table.Column<string>(type: "CHAR(2)", nullable: true),
-                    Cidade = table.Column<string>(type: "VARCHAR(255)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnderecoUsuario", x => x.ID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "StatusViagem",
                 columns: table => new
@@ -72,18 +57,11 @@ namespace VoyagerWebApi.Migrations
                     Senha = table.Column<string>(type: "VARCHAR(30)", nullable: false),
                     Foto = table.Column<string>(type: "TEXT", nullable: true),
                     Bio = table.Column<string>(type: "TEXT", nullable: true),
-                    IdEnderecoUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CodRecupSenha = table.Column<int>(type: "INT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuario", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Usuario_EnderecoUsuario_IdEnderecoUsuario",
-                        column: x => x.IdEnderecoUsuario,
-                        principalTable: "EnderecoUsuario",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,6 +80,28 @@ namespace VoyagerWebApi.Migrations
                         column: x => x.TiposAtividadeID,
                         principalTable: "TipoAtividade",
                         principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnderecoUsuario",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Cep = table.Column<string>(type: "VARCHAR(8)", maxLength: 8, nullable: true),
+                    Logradouro = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    Estado = table.Column<string>(type: "CHAR(2)", nullable: true),
+                    Cidade = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnderecoUsuario", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_EnderecoUsuario_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
+                        principalTable: "Usuario",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -308,6 +308,12 @@ namespace VoyagerWebApi.Migrations
                 column: "IdViagem");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EnderecoUsuario_IdUsuario",
+                table: "EnderecoUsuario",
+                column: "IdUsuario",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GaleriaImagem_IdPostagemViagem",
                 table: "GaleriaImagem",
                 column: "IdPostagemViagem");
@@ -337,11 +343,6 @@ namespace VoyagerWebApi.Migrations
                 table: "Usuario",
                 column: "Email",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuario_IdEnderecoUsuario",
-                table: "Usuario",
-                column: "IdEnderecoUsuario");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Viagem_IdPlanejamento",
@@ -377,6 +378,9 @@ namespace VoyagerWebApi.Migrations
                 name: "EnderecosViagem");
 
             migrationBuilder.DropTable(
+                name: "EnderecoUsuario");
+
+            migrationBuilder.DropTable(
                 name: "GaleriaImagem");
 
             migrationBuilder.DropTable(
@@ -402,9 +406,6 @@ namespace VoyagerWebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "TipoAtividade");
-
-            migrationBuilder.DropTable(
-                name: "EnderecoUsuario");
         }
     }
 }

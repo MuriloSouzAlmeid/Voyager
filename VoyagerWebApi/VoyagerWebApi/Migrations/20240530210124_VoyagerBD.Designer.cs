@@ -12,8 +12,8 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240528202626_BDVoyager")]
-    partial class BDVoyager
+    [Migration("20240530210124_VoyagerBD")]
+    partial class VoyagerBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,10 +89,16 @@ namespace VoyagerWebApi.Migrations
                     b.Property<string>("Estado")
                         .HasColumnType("CHAR(2)");
 
+                    b.Property<Guid>("IdUsuario")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Logradouro")
                         .HasColumnType("VARCHAR(255)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("IdUsuario")
+                        .IsUnique();
 
                     b.ToTable("EnderecoUsuario");
                 });
@@ -264,9 +270,6 @@ namespace VoyagerWebApi.Migrations
                     b.Property<string>("Foto")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdEnderecoUsuario")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
@@ -279,8 +282,6 @@ namespace VoyagerWebApi.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
-
-                    b.HasIndex("IdEnderecoUsuario");
 
                     b.ToTable("Usuario");
                 });
@@ -360,6 +361,17 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("VoyagerWebApi.Domains.EnderecosUsuario", b =>
+                {
+                    b.HasOne("VoyagerWebApi.Domains.Usuarios", "Usuario")
+                        .WithOne("EnderecoUsuario")
+                        .HasForeignKey("VoyagerWebApi.Domains.EnderecosUsuario", "IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("VoyagerWebApi.Domains.EnderecosViagem", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
@@ -419,17 +431,6 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Viagem");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.Usuarios", b =>
-                {
-                    b.HasOne("VoyagerWebApi.Domains.EnderecosUsuario", "EnderecoUsuario")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("IdEnderecoUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EnderecoUsuario");
-                });
-
             modelBuilder.Entity("VoyagerWebApi.Domains.Viagens", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.Planejamentos", "Planejamento")
@@ -465,11 +466,6 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.EnderecosUsuario", b =>
-                {
-                    b.Navigation("Usuarios");
-                });
-
             modelBuilder.Entity("VoyagerWebApi.Domains.PostagensViagens", b =>
                 {
                     b.Navigation("Avaliacoes");
@@ -499,6 +495,8 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Avaliacoes");
 
                     b.Navigation("Comentarios");
+
+                    b.Navigation("EnderecoUsuario");
                 });
 #pragma warning restore 612, 618
         }

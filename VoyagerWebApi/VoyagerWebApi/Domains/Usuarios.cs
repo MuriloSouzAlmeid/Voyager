@@ -38,9 +38,6 @@ namespace VoyagerWebApi.Domains
 
         public List<Avaliacoes>? Avaliacoes { get; set; }
 
-        public Guid IdEnderecoUsuario { get; set; }
-
-        [ForeignKey("IdEnderecoUsuario")]
         public EnderecosUsuario? EnderecoUsuario { get; set; }
 
         [Column(TypeName = "INT")]

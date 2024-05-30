@@ -4,16 +4,16 @@
         <name>VoyagerWebApi</name>
     </assembly>
     <members>
-        <member name="T:VoyagerWebApi.Migrations.BDVoyager">
+        <member name="T:VoyagerWebApi.Migrations.VoyagerBD">
             <inheritdoc />
         </member>
-        <member name="M:VoyagerWebApi.Migrations.BDVoyager.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:VoyagerWebApi.Migrations.VoyagerBD.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:VoyagerWebApi.Migrations.BDVoyager.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:VoyagerWebApi.Migrations.VoyagerBD.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:VoyagerWebApi.Migrations.BDVoyager.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:VoyagerWebApi.Migrations.VoyagerBD.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>
