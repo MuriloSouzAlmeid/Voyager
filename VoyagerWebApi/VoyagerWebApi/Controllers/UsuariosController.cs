@@ -48,13 +48,73 @@ namespace VoyagerWebApi.Controllers
                 {
                     Nome = dadosUsuario.Nome,
                     Email = dadosUsuario.Email,
-                    Senha = Criptografia.GerarHash(dadosUsuario.Senha!)
+                    Senha = Criptografia.GerarHash(dadosUsuario.Senha!),
+                    Foto = "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/do-utilizador.png"
                 };
 
                 _usuariosRepository.Cadastrar(novoUsuario);
 
                 return StatusCode(201, novoUsuario);
 
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpDelete("DeletarConta/{idUsuario}")]
+        public IActionResult Delete(Guid idUsuario)
+        {
+            try
+            {
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
+                
+                if (usuarioBuscado == null)
+                {
+                     return NotFound("Usuário não encontrado");
+                }
+
+                _usuariosRepository.Deletar(usuarioBuscado);
+
+                return Ok("Usuário deletado com sucesso");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPut("{idUsuario}")]
+        public IActionResult Atualizar(Guid idUsuario, AtualizarUsuarioViewModel dadosAtualizados)
+        {
+            try
+            {
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
+
+                if (usuarioBuscado == null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                _usuariosRepository.Atualizar(idUsuario, dadosAtualizados);
+
+                return Ok("Usuário Atualizado");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPut("AtualizarFotoPerfil/{idUsuario}")]
+        public IActionResult AtualizarFoto(Guid idUsuario, [FromForm] AtualizarFotoUsuarioViewModel arquivoForm)
+        {
+            try
+            {
+                // Lógica para atualizar foto
+
+                return Ok();
             }
             catch (Exception erro)
             {

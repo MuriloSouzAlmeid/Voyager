@@ -27,10 +27,6 @@ namespace VoyagerWebApi.Domains
         [Column(TypeName = "TEXT")]
         public string? Foto { get; set; }
 
-        [NotMapped]
-        [JsonIgnore]
-        public IFormFile? ArquivoFoto { get; set; }
-
         [Column(TypeName = "TEXT")]
         public string? Bio { get; set; }
 
