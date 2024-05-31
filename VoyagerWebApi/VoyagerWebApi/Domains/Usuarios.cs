@@ -20,7 +20,7 @@ namespace VoyagerWebApi.Domains
         [Required(ErrorMessage = "Email obrigatório.")]
         public string? Email { get; set; }
 
-        [Column(TypeName = "VARCHAR(30)")]
+        [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Senha obrigatória.")]
         public string? Senha { get; set; }
 

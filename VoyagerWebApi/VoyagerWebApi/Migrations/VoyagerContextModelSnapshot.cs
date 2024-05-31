@@ -273,7 +273,7 @@ namespace VoyagerWebApi.Migrations
 
                     b.Property<string>("Senha")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(30)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 

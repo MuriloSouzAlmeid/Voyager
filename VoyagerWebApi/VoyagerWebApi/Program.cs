@@ -2,6 +2,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Reflection;
+using VoyagerWebApi.Contexts;
+using VoyagerWebApi.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,42 +21,44 @@ builder.Services.AddControllers()
 );
 
 //Adiciona serviço de autenticação JWT Bearer - token por json
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultChallengeScheme = "JwtBearer";
-//    options.DefaultAuthenticateScheme = "JwtBearer";
-//})
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultChallengeScheme = "JwtBearer";
+    options.DefaultAuthenticateScheme = "JwtBearer";
+})
 
 //Define os parâmetros de validaçào do token (continuação acima)
-//.AddJwtBearer("JwtBearer", options =>
-//{
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        //Valida quem está solicitando
-//        ValidateIssuer = true,
+.AddJwtBearer("JwtBearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        //Valida quem está solicitando
+        ValidateIssuer = true,
 
-//        //Valida quem está recebendo
-//        ValidateAudience = true,
+        //Valida quem está recebendo
+        ValidateAudience = true,
 
-//        //Define se o tempo de expiração do token será validado
-//        ValidateLifetime = true,
+        //Define se o tempo de expiração do token será validado
+        ValidateLifetime = true,
 
-//        //Forma de criptografia e a validação da chave de autenticação
-//        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("inlock-games-chave-autenticacao-webapi-codefirst")),
+        //Forma de criptografia e a validação da chave de autenticação
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("projeto-voyager-chave-autenticacao-webapi")),
 
-//        //Valida o tempo de expiração do token
-//        ClockSkew = TimeSpan.FromMinutes(20),
+        //Valida o tempo de expiração do token
+        ClockSkew = TimeSpan.FromMinutes(20),
 
-//        //De onde está vindo (qual o issure)
-//        ValidIssuer = "webapi.inlock.codefirst",
+        //De onde está vindo (qual o issure)
+        ValidIssuer = "webapi.projeto.voyager",
 
-//        //Para onde está indo (qual o audiece)
-//        ValidAudience = "webapi.inlock.codefirst"
-//    };
-//});
+        //Para onde está indo (qual o audiece)
+        ValidAudience = "webapi.projeto.voyager"
+    };
+});
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 //Adiciona o gerador do Swagger à coleção de serviços
 builder.Services.AddSwaggerGen(options =>
 {
@@ -86,6 +90,9 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://example.com/license")
         }*/
     });
+
+
+    options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
     //Configura o Swagger para usar o arquivo XML gerado
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -134,10 +141,6 @@ builder.Services.AddSwaggerGen(options =>
 // Registrando o serviço de e-mail como uma instância transitória, que é criada cada vez que é solicitada
 //builder.Services.AddTransient<IEmailService, EmailService>();
 
-//builder.Services.AddScoped<EmailSendingService>();
-
-
-
 
 // CORS
 builder.Services.AddCors(options =>
@@ -157,16 +160,23 @@ var app = builder.Build();
 //Habilite o middleware para atender ao documento JSON gerado e à interface do usuário do Swagger
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
+app.UseSwagger(options =>
+{
+    options.SerializeAsV2 = true;
+});
+
+app.UseSwaggerUI();
 //Para atender à interface do usuário do Swagger na raiz do aplicativo
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     options.RoutePrefix = string.Empty;
 });
+
+app.UseRouting();
 
 app.UseCors("CorsPolicy");
 
