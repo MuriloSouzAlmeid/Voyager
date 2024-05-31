@@ -54,7 +54,7 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "VARCHAR(100)", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR(150)", nullable: false),
-                    Senha = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    Senha = table.Column<string>(type: "TEXT", nullable: false),
                     Foto = table.Column<string>(type: "TEXT", nullable: true),
                     Bio = table.Column<string>(type: "TEXT", nullable: true),
                     CodRecupSenha = table.Column<int>(type: "INT", nullable: true)

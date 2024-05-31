@@ -8,6 +8,6 @@ namespace VoyagerWebApi.ViewModels
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "O campo de senha é obrigatória")]
-        public string? String { get; set; }
+        public string? Senha { get; set; }
     }
 }
