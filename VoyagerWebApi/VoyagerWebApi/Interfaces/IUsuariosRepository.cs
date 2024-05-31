@@ -10,5 +10,6 @@ namespace VoyagerWebApi.Interfaces
         Usuarios BuscarPorLogin(string email, string senha);
         Usuarios Atualizar(Guid idUsuario, AtualizarUsuarioViewModel dadosAtualizados);
         void Deletar(Usuarios usuario);
+        void AtualizarFoto(Guid idUsuario, string urlFoto);
     }
 }

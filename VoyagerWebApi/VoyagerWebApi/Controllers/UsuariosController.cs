@@ -4,6 +4,7 @@ using VoyagerWebApi.Domains;
 using VoyagerWebApi.Interfaces;
 using VoyagerWebApi.Repositories;
 using VoyagerWebApi.Utils;
+using VoyagerWebApi.Utils.BlobStorage;
 using VoyagerWebApi.ViewModels;
 
 namespace VoyagerWebApi.Controllers
@@ -107,14 +108,30 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPut("AtualizarFotoPerfil/{idUsuario}")]
-        public IActionResult AtualizarFoto(Guid idUsuario, [FromForm] AtualizarFotoUsuarioViewModel arquivoForm)
+        [HttpPost("AtualizarFotoPerfil/{idUsuario}")]
+        public async Task<IActionResult> AtualizarFoto(Guid idUsuario, [FromForm] AtualizarFotoUsuarioViewModel arquivoForm)
         {
             try
             {
-                // Lógica para atualizar foto
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
 
-                return Ok();
+                if (usuarioBuscado == null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                //Define o nome a partir do seu container no blob
+                var containerName = "voyagercontainerblob";
+
+                //Definindo a string de conexão
+                var connectionString = "DefaultEndpointsProtocol=https;AccountName=voyagerblobstorage;AccountKey=KUCXzCqDYUNdIBbY9AM/qA1EA0Rw95VMMrT/+ceKyOwa/HbDiTmQlh6QN6beAAw0g/GQx/55x37k+AStjnaDRA==;EndpointSuffix=core.windows.net";
+
+                //A chamada da função de upload de imagem
+                string urlRetorno = await AzureBlobStorageHelper.UploadImageBlobAsync(arquivoForm.ArquivoFoto!, connectionString, containerName);
+
+                _usuariosRepository.AtualizarFoto(idUsuario, urlRetorno);
+
+                return Ok("Foto Atualizada");
             }
             catch (Exception erro)
             {

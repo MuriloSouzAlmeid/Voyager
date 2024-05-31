@@ -51,6 +51,20 @@ namespace VoyagerWebApi.Repositories
             return null;
         }
 
+        public void AtualizarFoto(Guid idUsuario, string urlFoto)
+        {
+            Usuarios usuarioBuscado = _context.Usuarios.FirstOrDefault(u => u.ID == idUsuario)!;
+
+            if(usuarioBuscado != null)
+            {
+                usuarioBuscado.Foto = urlFoto;
+
+                _context.Usuarios.Update(usuarioBuscado);
+            }
+
+            _context.SaveChanges();
+        }
+
         public Usuarios BuscarPorId(Guid idUsuario)
         {
             Usuarios usuarioBuscado = _context.Usuarios.Select(u => new Usuarios()
