@@ -5,6 +5,7 @@ using VoyagerWebApi.Interfaces;
 using VoyagerWebApi.Repositories;
 using VoyagerWebApi.Utils;
 using VoyagerWebApi.Utils.BlobStorage;
+using VoyagerWebApi.Utils.Mail;
 using VoyagerWebApi.ViewModels;
 
 namespace VoyagerWebApi.Controllers
@@ -16,9 +17,12 @@ namespace VoyagerWebApi.Controllers
     {
         private readonly IUsuariosRepository _usuariosRepository;
 
-        public UsuariosController()
+        private readonly EmailSendingService emailSendingService;
+
+        public UsuariosController(EmailSendingService service)
         {
             _usuariosRepository = new UsuariosRepository();
+            emailSendingService = service;
         }
 
         [HttpGet]
@@ -41,7 +45,7 @@ namespace VoyagerWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar(CadastrarUsuariosViewModel dadosUsuario)
+        public async Task<IActionResult> Cadastrar(CadastrarUsuariosViewModel dadosUsuario)
         {
             try
             {
@@ -55,7 +59,9 @@ namespace VoyagerWebApi.Controllers
 
                 _usuariosRepository.Cadastrar(novoUsuario);
 
-                return StatusCode(201, novoUsuario);
+                await emailSendingService.SendWelcomeEmail(dadosUsuario.Email!, novoUsuario.Nome!);
+
+                return StatusCode(201, "Usuário cadastrado");
 
             }
             catch (Exception erro)
@@ -132,6 +138,21 @@ namespace VoyagerWebApi.Controllers
                 _usuariosRepository.AtualizarFoto(idUsuario, urlRetorno);
 
                 return Ok("Foto Atualizada");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPost("RedefinirSenha/{email}")]
+        public IActionResult RedefinirSenha(string email, string novaSenha)
+        {
+            try
+            {
+                _usuariosRepository.RedefinirSenha(email, novaSenha);
+
+                return Ok();
             }
             catch (Exception erro)
             {

@@ -1,9 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Reflection;
 using VoyagerWebApi.Contexts;
 using VoyagerWebApi.Interfaces;
+using VoyagerWebApi.Utils.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -134,12 +136,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-
 // Configure EmailSettings
-//builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 
 // Registrando o serviço de e-mail como uma instância transitória, que é criada cada vez que é solicitada
-//builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
+builder.Services.AddScoped<EmailSendingService>();
 
 
 // CORS

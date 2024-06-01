@@ -121,5 +121,16 @@ namespace VoyagerWebApi.Repositories
 
             _context.SaveChanges();
         }
+
+        public void RedefinirSenha(string emailUsuario, string novaSenha)
+        {
+            Usuarios usuarioBuscado = _context.Usuarios.FirstOrDefault(u => u.Email == emailUsuario)!;
+            
+            usuarioBuscado.Senha = Criptografia.GerarHash(novaSenha);
+
+            _context.Usuarios.Update(usuarioBuscado);
+
+            _context.SaveChanges();
+        }
     }
 }

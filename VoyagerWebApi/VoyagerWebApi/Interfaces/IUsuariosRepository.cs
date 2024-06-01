@@ -11,5 +11,6 @@ namespace VoyagerWebApi.Interfaces
         Usuarios Atualizar(Guid idUsuario, AtualizarUsuarioViewModel dadosAtualizados);
         void Deletar(Usuarios usuario);
         void AtualizarFoto(Guid idUsuario, string urlFoto);
+        void RedefinirSenha(string emailUsuario, string novaSenha);
     }
 }
