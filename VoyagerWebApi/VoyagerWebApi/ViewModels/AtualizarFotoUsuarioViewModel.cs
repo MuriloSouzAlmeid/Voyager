@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace VoyagerWebApi.ViewModels
 {
-    public class BlobTestViewModel
+    public class AtualizarFotoUsuarioViewModel
     {
         [NotMapped]
         [JsonIgnore]
-        public IFormFile? File { get; set; }
+        public IFormFile? ArquivoFoto { get; set; }
     }
 }

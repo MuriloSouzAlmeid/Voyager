@@ -2,8 +2,7 @@
 
 namespace VoyagerWebApi.Utils.BlobStorage
 {
-    //Criar classe estatica, onde podemos acessar seus métodos estaticos sem precisar instanciar a classe
-    public static class AzureBlobStorageHelper
+    public class AzureBlobStorageHelper
     {
         public static async Task<string> UploadImageBlobAsync(IFormFile file, string connectionString, string containerName)
         {
@@ -40,7 +39,7 @@ namespace VoyagerWebApi.Utils.BlobStorage
                 else
                 {
                     //Imagem padrão
-                    return "";
+                    return "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/do-utilizador.png";
                 }
             }
             catch (Exception)
@@ -52,4 +51,3 @@ namespace VoyagerWebApi.Utils.BlobStorage
         }
     }
 }
-

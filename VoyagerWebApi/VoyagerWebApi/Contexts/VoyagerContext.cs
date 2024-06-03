@@ -24,7 +24,7 @@ namespace VoyagerWebApi.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-68BEBBR\\SERVERLUCCA; Database=Voyager; User Id=sa; Pwd=Senai@134; TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer("Server=tcp:voyagerserver.database.windows.net,1433;Initial Catalog=VoyagerDatabase;User ID=voyageradmin;Password=voyager123$;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
     }

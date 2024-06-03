@@ -20,16 +20,12 @@ namespace VoyagerWebApi.Domains
         [Required(ErrorMessage = "Email obrigatório.")]
         public string? Email { get; set; }
 
-        [Column(TypeName = "VARCHAR(30)")]
+        [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Senha obrigatória.")]
         public string? Senha { get; set; }
 
         [Column(TypeName = "TEXT")]
         public string? Foto { get; set; }
-
-        [NotMapped]
-        [JsonIgnore]
-        public IFormFile? ArquivoFoto { get; set; }
 
         [Column(TypeName = "TEXT")]
         public string? Bio { get; set; }
@@ -38,9 +34,6 @@ namespace VoyagerWebApi.Domains
 
         public List<Avaliacoes>? Avaliacoes { get; set; }
 
-        public Guid IdEnderecoUsuario { get; set; }
-
-        [ForeignKey("IdEnderecoUsuario")]
         public EnderecosUsuario? EnderecoUsuario { get; set; }
 
         [Column(TypeName = "INT")]

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\46561309820\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {}
+    "C:\\Users\\muril\\OneDrive\\Documentos\\murilo_souza\\estudos\\Senai\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\46561309820\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {
+    "C:\\Users\\muril\\OneDrive\\Documentos\\murilo_souza\\estudos\\Senai\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\46561309820\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\muril\\OneDrive\\Documentos\\murilo_souza\\estudos\\Senai\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
         "projectName": "VoyagerWebApi",
-        "projectPath": "C:\\Users\\46561309820\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
-        "packagesPath": "C:\\Users\\46561309820\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\46561309820\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\obj\\",
+        "projectPath": "C:\\Users\\muril\\OneDrive\\Documentos\\murilo_souza\\estudos\\Senai\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
+        "packagesPath": "C:\\Users\\muril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\muril\\OneDrive\\Documentos\\murilo_souza\\estudos\\Senai\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\46561309820\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\muril\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -122,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
