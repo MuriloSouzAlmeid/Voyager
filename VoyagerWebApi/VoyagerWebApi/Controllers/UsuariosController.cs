@@ -4,6 +4,8 @@ using VoyagerWebApi.Domains;
 using VoyagerWebApi.Interfaces;
 using VoyagerWebApi.Repositories;
 using VoyagerWebApi.Utils;
+using VoyagerWebApi.Utils.BlobStorage;
+using VoyagerWebApi.Utils.Mail;
 using VoyagerWebApi.ViewModels;
 
 namespace VoyagerWebApi.Controllers
@@ -15,9 +17,12 @@ namespace VoyagerWebApi.Controllers
     {
         private readonly IUsuariosRepository _usuariosRepository;
 
-        public UsuariosController()
+        private readonly EmailSendingService emailSendingService;
+
+        public UsuariosController(EmailSendingService service)
         {
             _usuariosRepository = new UsuariosRepository();
+            emailSendingService = service;
         }
 
         [HttpGet]
@@ -40,7 +45,7 @@ namespace VoyagerWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar(CadastrarUsuariosViewModel dadosUsuario)
+        public async Task<IActionResult> Cadastrar(CadastrarUsuariosViewModel dadosUsuario)
         {
             try
             {
@@ -48,13 +53,106 @@ namespace VoyagerWebApi.Controllers
                 {
                     Nome = dadosUsuario.Nome,
                     Email = dadosUsuario.Email,
-                    Senha = Criptografia.GerarHash(dadosUsuario.Senha!)
+                    Senha = Criptografia.GerarHash(dadosUsuario.Senha!),
+                    Foto = "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/do-utilizador.png"
                 };
 
                 _usuariosRepository.Cadastrar(novoUsuario);
 
-                return StatusCode(201, novoUsuario);
+                await emailSendingService.SendWelcomeEmail(dadosUsuario.Email!, novoUsuario.Nome!);
 
+                return StatusCode(201, "Usuário cadastrado");
+
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpDelete("DeletarConta/{idUsuario}")]
+        public IActionResult Delete(Guid idUsuario)
+        {
+            try
+            {
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
+                
+                if (usuarioBuscado == null)
+                {
+                     return NotFound("Usuário não encontrado");
+                }
+
+                _usuariosRepository.Deletar(usuarioBuscado);
+
+                return Ok("Usuário deletado com sucesso");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPut("{idUsuario}")]
+        public IActionResult Atualizar(Guid idUsuario, AtualizarUsuarioViewModel dadosAtualizados)
+        {
+            try
+            {
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
+
+                if (usuarioBuscado == null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                _usuariosRepository.Atualizar(idUsuario, dadosAtualizados);
+
+                return Ok("Usuário Atualizado");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPost("AtualizarFotoPerfil/{idUsuario}")]
+        public async Task<IActionResult> AtualizarFoto(Guid idUsuario, [FromForm] AtualizarFotoUsuarioViewModel arquivoForm)
+        {
+            try
+            {
+                Usuarios usuarioBuscado = _usuariosRepository.BuscarPorId(idUsuario);
+
+                if (usuarioBuscado == null)
+                {
+                    return NotFound("Usuário não encontrado");
+                }
+
+                //Define o nome a partir do seu container no blob
+                var containerName = "voyagercontainerblob";
+
+                //Definindo a string de conexão
+                var connectionString = "DefaultEndpointsProtocol=https;AccountName=voyagerblobstorage;AccountKey=KUCXzCqDYUNdIBbY9AM/qA1EA0Rw95VMMrT/+ceKyOwa/HbDiTmQlh6QN6beAAw0g/GQx/55x37k+AStjnaDRA==;EndpointSuffix=core.windows.net";
+
+                //A chamada da função de upload de imagem
+                string urlRetorno = await AzureBlobStorageHelper.UploadImageBlobAsync(arquivoForm.ArquivoFoto!, connectionString, containerName);
+
+                _usuariosRepository.AtualizarFoto(idUsuario, urlRetorno);
+
+                return Ok("Foto Atualizada");
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPost("RedefinirSenha/{email}")]
+        public IActionResult RedefinirSenha(string email, string novaSenha)
+        {
+            try
+            {
+                _usuariosRepository.RedefinirSenha(email, novaSenha);
+
+                return Ok();
             }
             catch (Exception erro)
             {

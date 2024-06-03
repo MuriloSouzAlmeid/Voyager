@@ -28,10 +28,6 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utils\Mail\" />
-  </ItemGroup>
-
 	<!--Adiciona comentários XML-->
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
