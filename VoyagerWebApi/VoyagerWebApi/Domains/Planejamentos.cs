@@ -9,7 +9,14 @@ namespace VoyagerWebApi.Domains
         [Key]
         public Guid ID { get; set; } = Guid.NewGuid();
 
+        public Guid IdViagem { get; set; }
+
+        [ForeignKey("IdViagem")]
+        public Viagens? Viagem { get; set; }
+
         [Column(TypeName = "TEXT")]
         public string? Descricao { get; set; }
+
+        public List<Atividade>? Atividades { get; set;}
     }
 }

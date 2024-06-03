@@ -19,11 +19,6 @@ namespace VoyagerWebApi.Domains
         [ForeignKey("IdTipoViagem")]
         public TiposViagem? TipoViagem { get; set; }
 
-        public Guid IdPlanejamento { get; set; }
-
-        [ForeignKey("IdPlanejamento")]
-        public Planejamentos? Planejamento { get; set;}
-
         [Column(TypeName = "DATETIME")]
         public DateTime? DataInicial { get; set; }
 
@@ -34,5 +29,7 @@ namespace VoyagerWebApi.Domains
 
         [ForeignKey("IdStatusViagem")]
         public StatusViagens? StatusViagem { get; set; }
+
+        public Planejamentos? Planejamento { get; set; }
     }
 }

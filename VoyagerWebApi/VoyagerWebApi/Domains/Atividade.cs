@@ -3,20 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VoyagerWebApi.Domains
 {
-    [Table("PlanejamentoAtividade")]
-    public class PlanejamentoAtividade
+    [Table("Atividades")]
+    public class Atividade
     {
         [Key]
         public Guid ID { get; set; } = Guid.NewGuid();
 
+        [Column(TypeName = "VARCHAR(255)")]
+        public string? TipoAtividade { get; set; }
+
         public Guid IdPlanejamento { get; set; }
 
         [ForeignKey("IdPlanejamento")]
-        public Planejamentos? Planejamentos { get; set; }
-
-        public Guid IdTipoAtividade { get; set; }
-
-        [ForeignKey("IdTipoAtividade")]
-        public TiposAtividade? TipoAtividade { get; set; }
+        public Planejamentos? Planejamento { get; set;}
     }
 }
