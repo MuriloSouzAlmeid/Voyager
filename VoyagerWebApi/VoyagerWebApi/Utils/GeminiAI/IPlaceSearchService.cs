@@ -2,6 +2,6 @@
 {
     public interface IPlaceSearchService
     {
-        Task<PlaceSettings[]> BuscarPontosTuristicos(string local);
+        Task<List<PlaceSettings>> BuscarPontosTuristicos(string local);
     }
 }
