@@ -12,8 +12,8 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240603191821_VoyagerDB")]
-    partial class VoyagerDB
+    [Migration("20240604010142_VoyagerBD")]
+    partial class VoyagerBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,13 +175,7 @@ namespace VoyagerWebApi.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdViagem")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("IdViagem")
-                        .IsUnique();
 
                     b.ToTable("Planejamento");
                 });
@@ -283,6 +277,9 @@ namespace VoyagerWebApi.Migrations
                     b.Property<DateTime?>("DataInicial")
                         .HasColumnType("DATETIME");
 
+                    b.Property<Guid>("IdPlanejamento")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("IdStatusViagem")
                         .HasColumnType("uniqueidentifier");
 
@@ -292,6 +289,9 @@ namespace VoyagerWebApi.Migrations
                     b.Property<Guid>("IdUsuario")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("IdViagem")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ID");
 
                     b.HasIndex("IdStatusViagem");
@@ -299,6 +299,8 @@ namespace VoyagerWebApi.Migrations
                     b.HasIndex("IdTipoViagem");
 
                     b.HasIndex("IdUsuario");
+
+                    b.HasIndex("IdViagem");
 
                     b.ToTable("Viagem");
                 });
@@ -385,17 +387,6 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("PostagemViagenm");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.Planejamentos", b =>
-                {
-                    b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
-                        .WithOne("Planejamento")
-                        .HasForeignKey("VoyagerWebApi.Domains.Planejamentos", "IdViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Viagem");
-                });
-
             modelBuilder.Entity("VoyagerWebApi.Domains.PostagensViagens", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
@@ -426,6 +417,12 @@ namespace VoyagerWebApi.Migrations
                         .HasForeignKey("IdUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("VoyagerWebApi.Domains.Planejamentos", "Planejamento")
+                        .WithMany()
+                        .HasForeignKey("IdViagem");
+
+                    b.Navigation("Planejamento");
 
                     b.Navigation("StatusViagem");
 
@@ -465,11 +462,6 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Comentarios");
 
                     b.Navigation("EnderecoUsuario");
-                });
-
-            modelBuilder.Entity("VoyagerWebApi.Domains.Viagens", b =>
-                {
-                    b.Navigation("Planejamento");
                 });
 #pragma warning restore 612, 618
         }

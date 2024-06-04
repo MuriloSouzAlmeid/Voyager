@@ -4,18 +4,6 @@
         <name>VoyagerWebApi</name>
     </assembly>
     <members>
-        <member name="T:VoyagerWebApi.Migrations.VoyagerDB">
-            <inheritdoc />
-        </member>
-        <member name="M:VoyagerWebApi.Migrations.VoyagerDB.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:VoyagerWebApi.Migrations.VoyagerDB.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:VoyagerWebApi.Migrations.VoyagerDB.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
         <member name="M:VoyagerWebApi.Utils.Mail.EmailSendingService.SendWelcomeEmail(System.String,System.String)">
             <summary>
             Método para envio de email de boas vindas ao cadastrar um novo usuário
