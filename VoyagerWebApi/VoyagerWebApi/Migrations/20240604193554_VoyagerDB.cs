@@ -6,23 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VoyagerWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class VoyagerBD : Migration
+    public partial class VoyagerDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Planejamento",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Planejamento", x => x.ID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "StatusViagem",
                 columns: table => new
@@ -65,25 +53,6 @@ namespace VoyagerWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Atividades",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TipoAtividade = table.Column<string>(type: "VARCHAR(255)", nullable: true),
-                    IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Atividades", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Atividades_Planejamento_IdPlanejamento",
-                        column: x => x.IdPlanejamento,
-                        principalTable: "Planejamento",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EnderecoUsuario",
                 columns: table => new
                 {
@@ -114,18 +83,11 @@ namespace VoyagerWebApi.Migrations
                     IdTipoViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DataInicial = table.Column<DateTime>(type: "DATETIME", nullable: true),
                     DataFinal = table.Column<DateTime>(type: "DATETIME", nullable: true),
-                    IdStatusViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    IdStatusViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Viagem", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Viagem_Planejamento_IdViagem",
-                        column: x => x.IdViagem,
-                        principalTable: "Planejamento",
-                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Viagem_StatusViagem_IdStatusViagem",
                         column: x => x.IdStatusViagem,
@@ -147,14 +109,33 @@ namespace VoyagerWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Atividades",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DataAtividade = table.Column<DateTime>(type: "DATETIME", nullable: true),
+                    DescricaoAtividade = table.Column<string>(type: "TEXT", nullable: true),
+                    IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Atividades", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Atividades_Viagem_IdPlanejamento",
+                        column: x => x.IdPlanejamento,
+                        principalTable: "Viagem",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EnderecosViagem",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Pais = table.Column<string>(type: "VARCHAR(100)", nullable: true),
-                    Cidade = table.Column<string>(type: "VARCHAR(200)", nullable: true),
-                    Logradouro = table.Column<string>(type: "VARCHAR(255)", nullable: true)
+                    Cidade = table.Column<string>(type: "VARCHAR(200)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -324,11 +305,6 @@ namespace VoyagerWebApi.Migrations
                 name: "IX_Viagem_IdUsuario",
                 table: "Viagem",
                 column: "IdUsuario");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Viagem_IdViagem",
-                table: "Viagem",
-                column: "IdViagem");
         }
 
         /// <inheritdoc />
@@ -357,9 +333,6 @@ namespace VoyagerWebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Viagem");
-
-            migrationBuilder.DropTable(
-                name: "Planejamento");
 
             migrationBuilder.DropTable(
                 name: "StatusViagem");

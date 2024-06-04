@@ -18,8 +18,5 @@ namespace VoyagerWebApi.Domains
 
         [Column(TypeName = "VARCHAR(200)")]
         public string? Cidade { get; set; }
-
-        [Column(TypeName = "VARCHAR(255)")]
-        public string? Logradouro { get; set; }
     }
 }
