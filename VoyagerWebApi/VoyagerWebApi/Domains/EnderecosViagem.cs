@@ -14,9 +14,15 @@ namespace VoyagerWebApi.Domains
         public Viagens? Viagem { get; set; }
 
         [Column(TypeName = "VARCHAR(100)")]
-        public string? Pais { get; set; }
+        public string? PaisOrigem { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string? Cidade { get; set; }
+        public string? CidadeOrigem { get; set; }
+
+        [Column(TypeName = "VARCHAR(100)")]
+        public string? PaisDestino { get; set; }
+
+        [Column(TypeName = "VARCHAR(200)")]
+        public string? CidadeDestino { get; set; }
     }
 }

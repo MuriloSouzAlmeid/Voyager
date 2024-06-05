@@ -13,6 +13,18 @@ namespace VoyagerWebApi.Repositories
             _context = new VoyagerContext();
         }
 
+        public Atividade BuscarPorId(Guid idAtividade)
+        {
+            Atividade atividadeBuscada = _context.Atividades.FirstOrDefault(a => a.ID == idAtividade)!;
+
+            if(atividadeBuscada == null)
+            {
+                return null;
+            }
+
+            return atividadeBuscada;
+        }
+
         public void Cadastrar(Atividade novaAtividade)
         {
             _context.Atividades.Add(novaAtividade);
@@ -30,6 +42,13 @@ namespace VoyagerWebApi.Repositories
 
                 _context.SaveChanges();
             }    
+        }
+
+        public List<Atividade> ListarPorViagem(Guid idViagem)
+        {
+            List<Atividade> listaDeAtividades = _context.Atividades.Where(a => a.IdViagem == idViagem).ToList();
+
+            return listaDeAtividades;
         }
     }
 }

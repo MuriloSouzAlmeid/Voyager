@@ -15,6 +15,9 @@ namespace VoyagerWebApi.Domains
         [Column(TypeName ="TEXT")]
         public string? DescricaoAtividade { get; set; }
 
+        [Column(TypeName ="BIT")]
+        public bool? Concluida { get; set; }
+
         public Guid IdViagem { get; set; }
 
         [ForeignKey("IdPlanejamento")]

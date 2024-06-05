@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VoyagerWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class VoyagerDB : Migration
+    public partial class VoyagerBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -115,6 +115,7 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DataAtividade = table.Column<DateTime>(type: "DATETIME", nullable: true),
                     DescricaoAtividade = table.Column<string>(type: "TEXT", nullable: true),
+                    Concluida = table.Column<bool>(type: "BIT", nullable: true),
                     IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -134,8 +135,10 @@ namespace VoyagerWebApi.Migrations
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Pais = table.Column<string>(type: "VARCHAR(100)", nullable: true),
-                    Cidade = table.Column<string>(type: "VARCHAR(200)", nullable: true)
+                    PaisOrigem = table.Column<string>(type: "VARCHAR(100)", nullable: true),
+                    CidadeOrigem = table.Column<string>(type: "VARCHAR(200)", nullable: true),
+                    PaisDestino = table.Column<string>(type: "VARCHAR(100)", nullable: true),
+                    CidadeDestino = table.Column<string>(type: "VARCHAR(200)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -267,7 +270,8 @@ namespace VoyagerWebApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_EnderecosViagem_IdViagem",
                 table: "EnderecosViagem",
-                column: "IdViagem");
+                column: "IdViagem",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EnderecoUsuario_IdUsuario",

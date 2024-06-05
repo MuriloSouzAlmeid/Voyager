@@ -28,6 +28,9 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("Concluida")
+                        .HasColumnType("BIT");
+
                     b.Property<DateTime?>("DataAtividade")
                         .HasColumnType("DATETIME");
 
@@ -131,18 +134,25 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Cidade")
+                    b.Property<string>("CidadeDestino")
+                        .HasColumnType("VARCHAR(200)");
+
+                    b.Property<string>("CidadeOrigem")
                         .HasColumnType("VARCHAR(200)");
 
                     b.Property<Guid>("IdViagem")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Pais")
+                    b.Property<string>("PaisDestino")
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.Property<string>("PaisOrigem")
                         .HasColumnType("VARCHAR(100)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IdViagem");
+                    b.HasIndex("IdViagem")
+                        .IsUnique();
 
                     b.ToTable("EnderecosViagem");
                 });
@@ -344,8 +354,8 @@ namespace VoyagerWebApi.Migrations
             modelBuilder.Entity("VoyagerWebApi.Domains.EnderecosViagem", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
-                        .WithMany()
-                        .HasForeignKey("IdViagem")
+                        .WithOne("Endereco")
+                        .HasForeignKey("VoyagerWebApi.Domains.EnderecosViagem", "IdViagem")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -432,6 +442,8 @@ namespace VoyagerWebApi.Migrations
             modelBuilder.Entity("VoyagerWebApi.Domains.Viagens", b =>
                 {
                     b.Navigation("Atividades");
+
+                    b.Navigation("Endereco");
                 });
 #pragma warning restore 612, 618
         }

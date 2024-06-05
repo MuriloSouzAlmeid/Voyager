@@ -64,8 +64,10 @@ namespace VoyagerWebApi.Controllers
 
                 EnderecosViagem novoEndereco = new EnderecosViagem()
                 {
-                    Cidade = viagemViewModel.Cidade,
-                    Pais = viagemViewModel.Pais,
+                    CidadeOrigem = viagemViewModel.CidadeOrigem,
+                    PaisOrigem = viagemViewModel.PaisOrigem,
+                    CidadeDestino = viagemViewModel.CidadeDestino,
+                    PaisDestino = viagemViewModel.PaisDestino,
                     IdViagem = novaViagem.ID
                 };
 
