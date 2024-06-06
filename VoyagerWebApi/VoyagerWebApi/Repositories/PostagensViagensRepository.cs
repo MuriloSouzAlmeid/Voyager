@@ -2,6 +2,7 @@
 using VoyagerWebApi.ViewModels;
 using VoyagerWebApi.Domains;
 using VoyagerWebApi.Contexts;
+using System.Linq;
 
 namespace VoyagerWebApi.Repositories
 {
@@ -15,6 +16,14 @@ namespace VoyagerWebApi.Repositories
         }
         public void Atualizar(Guid IdPostagemViagem, CadastrarAtividadesViewModel dadosAtualizados)
         {
+            //CadastrarAtividadesViewModel postagemBuscada = ctx.PostagensViagens.FirstOrDefault(dadosAtualizados)!;
+
+            //if (postagemBuscada != null)
+            //{
+            //    postagemBuscada = dadosAtualizados;
+            //}
+
+            //ctx.SaveChanges();
             throw new NotImplementedException();
         }
 
