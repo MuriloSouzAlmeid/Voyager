@@ -5,6 +5,7 @@ using VoyagerWebApi.Domains;
 using VoyagerWebApi.Interfaces;
 using VoyagerWebApi.Repositories;
 using VoyagerWebApi.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VoyagerWebApi.Controllers
 {
@@ -55,6 +56,25 @@ namespace VoyagerWebApi.Controllers
                _postagensViagens.Cadastrar(postagensViagens);
 
                 return Ok("postagens FOI");
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
+        }
+
+        [HttpDelete("Deletar")]
+        public IActionResult Delete (Guid idPostagensViagens)
+        {
+            try
+            {
+                PostagensViagens postagensViagens = _postagensViagens.BuscarPorId(idPostagensViagens);
+
+                if (postagensViagens == null)
+                {
+                    return NotFound("Postagem não encontrada");
+                }
+                return Ok(postagensViagens);
             }
             catch (Exception error)
             {
