@@ -12,8 +12,8 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240603191821_VoyagerDB")]
-    partial class VoyagerDB
+    [Migration("20240605181526_VoyagerBD")]
+    partial class VoyagerBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,20 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IdPlanejamento")
+                    b.Property<bool?>("Concluida")
+                        .HasColumnType("BIT");
+
+                    b.Property<DateTime?>("DataAtividade")
+                        .HasColumnType("DATETIME");
+
+                    b.Property<string>("DescricaoAtividade")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("IdPlanejamento")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TipoAtividade")
-                        .HasColumnType("VARCHAR(255)");
+                    b.Property<Guid>("IdViagem")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -128,21 +137,25 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Cidade")
+                    b.Property<string>("CidadeDestino")
+                        .HasColumnType("VARCHAR(200)");
+
+                    b.Property<string>("CidadeOrigem")
                         .HasColumnType("VARCHAR(200)");
 
                     b.Property<Guid>("IdViagem")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Logradouro")
-                        .HasColumnType("VARCHAR(255)");
+                    b.Property<string>("PaisDestino")
+                        .HasColumnType("VARCHAR(100)");
 
-                    b.Property<string>("Pais")
+                    b.Property<string>("PaisOrigem")
                         .HasColumnType("VARCHAR(100)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IdViagem");
+                    b.HasIndex("IdViagem")
+                        .IsUnique();
 
                     b.ToTable("EnderecosViagem");
                 });
@@ -164,26 +177,6 @@ namespace VoyagerWebApi.Migrations
                     b.HasIndex("IdPostagemViagem");
 
                     b.ToTable("GaleriaImagem");
-                });
-
-            modelBuilder.Entity("VoyagerWebApi.Domains.Planejamentos", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("IdViagem")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("IdViagem")
-                        .IsUnique();
-
-                    b.ToTable("Planejamento");
                 });
 
             modelBuilder.Entity("VoyagerWebApi.Domains.PostagensViagens", b =>
@@ -305,13 +298,11 @@ namespace VoyagerWebApi.Migrations
 
             modelBuilder.Entity("VoyagerWebApi.Domains.Atividade", b =>
                 {
-                    b.HasOne("VoyagerWebApi.Domains.Planejamentos", "Planejamento")
+                    b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
                         .WithMany("Atividades")
-                        .HasForeignKey("IdPlanejamento")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdPlanejamento");
 
-                    b.Navigation("Planejamento");
+                    b.Navigation("Viagem");
                 });
 
             modelBuilder.Entity("VoyagerWebApi.Domains.Avaliacoes", b =>
@@ -366,8 +357,8 @@ namespace VoyagerWebApi.Migrations
             modelBuilder.Entity("VoyagerWebApi.Domains.EnderecosViagem", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
-                        .WithMany()
-                        .HasForeignKey("IdViagem")
+                        .WithOne("Endereco")
+                        .HasForeignKey("VoyagerWebApi.Domains.EnderecosViagem", "IdViagem")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -383,17 +374,6 @@ namespace VoyagerWebApi.Migrations
                         .IsRequired();
 
                     b.Navigation("PostagemViagenm");
-                });
-
-            modelBuilder.Entity("VoyagerWebApi.Domains.Planejamentos", b =>
-                {
-                    b.HasOne("VoyagerWebApi.Domains.Viagens", "Viagem")
-                        .WithOne("Planejamento")
-                        .HasForeignKey("VoyagerWebApi.Domains.Planejamentos", "IdViagem")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Viagem");
                 });
 
             modelBuilder.Entity("VoyagerWebApi.Domains.PostagensViagens", b =>
@@ -434,11 +414,6 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.Planejamentos", b =>
-                {
-                    b.Navigation("Atividades");
-                });
-
             modelBuilder.Entity("VoyagerWebApi.Domains.PostagensViagens", b =>
                 {
                     b.Navigation("Avaliacoes");
@@ -469,7 +444,9 @@ namespace VoyagerWebApi.Migrations
 
             modelBuilder.Entity("VoyagerWebApi.Domains.Viagens", b =>
                 {
-                    b.Navigation("Planejamento");
+                    b.Navigation("Atividades");
+
+                    b.Navigation("Endereco");
                 });
 #pragma warning restore 612, 618
         }

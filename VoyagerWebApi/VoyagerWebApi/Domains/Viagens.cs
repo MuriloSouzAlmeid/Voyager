@@ -30,6 +30,8 @@ namespace VoyagerWebApi.Domains
         [ForeignKey("IdStatusViagem")]
         public StatusViagens? StatusViagem { get; set; }
 
-        public Planejamentos? Planejamento { get; set; }
+        public List<Atividade>? Atividades { get; set; }
+
+        public EnderecosViagem? Endereco { get; set; }
     }
 }

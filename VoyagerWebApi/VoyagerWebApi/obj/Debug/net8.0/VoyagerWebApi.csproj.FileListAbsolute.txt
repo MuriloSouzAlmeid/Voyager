@@ -304,3 +304,6 @@ C:\Users\muril\OneDrive\Documentos\murilo_souza\estudos\Senai\VoyagerBackEnd\Voy
 C:\Users\muril\OneDrive\Documentos\murilo_souza\estudos\Senai\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\obj\Debug\net8.0\VoyagerWebApi.pdb
 C:\Users\muril\OneDrive\Documentos\murilo_souza\estudos\Senai\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\obj\Debug\net8.0\VoyagerWebApi.genruntimeconfig.cache
 C:\Users\muril\OneDrive\Documentos\murilo_souza\estudos\Senai\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\obj\Debug\net8.0\ref\VoyagerWebApi.dll
+C:\Users\muril\OneDrive\Documentos\murilo_souza\estudos\Senai\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\bin\Debug\net8.0\GenerativeAI.dll
+C:\Users\47015003805\Desktop\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\bin\Debug\net8.0\GenerativeAI.dll
+C:\Users\47015003805\Desktop\VoyagerBackEnd\VoyagerWebApi\VoyagerWebApi\bin\Debug\net8.0\System.Text.Json.dll
