@@ -24,7 +24,7 @@ namespace VoyagerWebApi.Controllers
         {
             try
             {
-                List<Comentarios> listaDeComentarios = _comentariosRepository.ListarPorPostagem(idPostagem);
+                List<Comentario> listaDeComentarios = _comentariosRepository.ListarPorPostagem(idPostagem);
 
                 return Ok(listaDeComentarios);
             }
@@ -34,12 +34,37 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPost("{idPostagem}")]
-        public IActionResult Cadastrar(Guid idPostagem)
+
+        [HttpGet]
+        public IActionResult BuscarPorId(Guid idComentario)
         {
             try
             {
+                Comentario comentarioBuscado = _comentariosRepository.BuscarPorId(idComentario);
+
+                return Ok(comentarioBuscado);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Cadastrar(CadastrarComentarioViewModel novoComentario)
+        {
+            try
+            {
+                Comentario comentario = new Comentario()
+                { 
+                    IdPostagemViagem = novoComentario.IdPostagem,
+                    IdUsuario = novoComentario.IdUsuario,
+                    ComentarioTexto = novoComentario.ComentarioTexto
+                };
+
+                _comentariosRepository.Cadastrar(comentario);
                 
+                return Ok("cadastrado");
             }
             catch (Exception erro)
             {
@@ -52,14 +77,16 @@ namespace VoyagerWebApi.Controllers
         {
             try
             {
-                Comentarios comentarioBuscado = _comentariosRepository.BuscarPorId(idComentario);
+                Comentario comentarioBuscado = _comentariosRepository.BuscarPorId(idComentario);
 
                 if (comentarioBuscado == null)
                 {
                     return NotFound("Atividade não encontrada");
                 }
 
-                return Ok(comentarioBuscado);
+                _comentariosRepository.Deletar(idComentario);
+
+                return Ok();
             }
             catch (Exception erro)
             {

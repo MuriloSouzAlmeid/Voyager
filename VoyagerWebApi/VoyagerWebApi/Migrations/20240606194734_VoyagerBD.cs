@@ -204,7 +204,7 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdPostagemViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comenario = table.Column<string>(type: "TEXT", nullable: true)
+                    ComentarioTexto = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

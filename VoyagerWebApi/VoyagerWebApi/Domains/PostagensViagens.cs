@@ -22,7 +22,7 @@ namespace VoyagerWebApi.Domains
 
         public List<Avaliacoes>? Avaliacoes { get; set; }
 
-        public List<Comentarios>? Comentarios {  get; set; }
+        public List<Comentario>? Comentarios {  get; set; }
         
         public List<GaleriaImagens>? GaleriaImagens { get; set; }
     }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VoyagerWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d67a3d308a1215109ea68d41db6e54451f3c2d52")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edd179ca6617b58cce493ffdb3616d46de48907f")]
 [assembly: System.Reflection.AssemblyProductAttribute("VoyagerWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VoyagerWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

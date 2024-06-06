@@ -30,7 +30,7 @@ namespace VoyagerWebApi.Domains
         [Column(TypeName = "TEXT")]
         public string? Bio { get; set; }
 
-        public List<Comentarios>? Comentarios { get; set; }
+        public List<Comentario>? Comentarios { get; set; }
 
         public List<Avaliacoes>? Avaliacoes { get; set; }
 

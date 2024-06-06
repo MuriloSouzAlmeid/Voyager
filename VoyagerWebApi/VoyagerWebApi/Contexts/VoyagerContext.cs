@@ -6,7 +6,7 @@ namespace VoyagerWebApi.Contexts
     public class VoyagerContext : DbContext
     {
         public DbSet<Avaliacoes> Avaliacoes { get; set; }
-        public DbSet<Comentarios> Comentarios { get; set; }
+        public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<EnderecosViagem> EnderecosViagem { get; set; }
         public DbSet<EnderecosUsuario> EnderecosUsuarios { get; set; }
         public DbSet<GaleriaImagens> GaleriaImagens { get; set; }

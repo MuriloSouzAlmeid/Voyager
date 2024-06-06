@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace VoyagerWebApi.Domains
 {
     [Table("Comentario")]
-    public class Comentarios
+    public class Comentario
     {
         [Key]
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -20,6 +20,6 @@ namespace VoyagerWebApi.Domains
         public Usuarios? Usuario { get; set; }
 
         [Column(TypeName ="TEXT")]
-        public string? Comenario { get; set; }
+        public string? ComentarioTexto { get; set; }
     }
 }

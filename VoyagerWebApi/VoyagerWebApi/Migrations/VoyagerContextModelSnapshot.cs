@@ -74,13 +74,13 @@ namespace VoyagerWebApi.Migrations
                     b.ToTable("Avaliacao");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.Comentarios", b =>
+            modelBuilder.Entity("VoyagerWebApi.Domains.Comentario", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comenario")
+                    b.Property<string>("ComentarioTexto")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("IdPostagemViagem")
@@ -321,7 +321,7 @@ namespace VoyagerWebApi.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("VoyagerWebApi.Domains.Comentarios", b =>
+            modelBuilder.Entity("VoyagerWebApi.Domains.Comentario", b =>
                 {
                     b.HasOne("VoyagerWebApi.Domains.PostagensViagens", "PostagemViagem")
                         .WithMany("Comentarios")

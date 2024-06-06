@@ -13,9 +13,9 @@ namespace VoyagerWebApi.Repositories
             _context = new VoyagerContext();
         }
 
-        public Comentarios BuscarPorId(Guid idComentario)
+        public Comentario BuscarPorId(Guid idComentario)
         {
-            Comentarios comentarioBuscado = _context.Comentarios.FirstOrDefault(c => c.ID == idComentario)!;
+            Comentario comentarioBuscado = _context.Comentarios.FirstOrDefault(c => c.ID == idComentario)!;
 
             if (comentarioBuscado == null)
             {
@@ -25,7 +25,7 @@ namespace VoyagerWebApi.Repositories
             return comentarioBuscado;
         }
 
-        public void Cadastrar(Comentarios novoComentario)
+        public void Cadastrar(Comentario novoComentario)
         {
            
             _context.Comentarios.Add(novoComentario);
@@ -36,7 +36,7 @@ namespace VoyagerWebApi.Repositories
 
         public void Deletar(Guid idComentario)
         {
-            Comentarios comentarioBuscado = _context.Comentarios.FirstOrDefault(c => c.ID == idComentario)!;
+            Comentario comentarioBuscado = _context.Comentarios.FirstOrDefault(c => c.ID == idComentario)!;
 
             if (comentarioBuscado != null)
             {
@@ -46,9 +46,9 @@ namespace VoyagerWebApi.Repositories
             }
         }
 
-        public List<Comentarios> ListarPorPostagem(Guid idPostagem)
+        public List<Comentario> ListarPorPostagem(Guid idPostagem)
         {
-            List<Comentarios> listaDeComentarios = _context.Comentarios.Where(a => a.IdPostagemViagem == idPostagem).ToList();
+            List<Comentario> listaDeComentarios = _context.Comentarios.Where(a => a.IdPostagemViagem == idPostagem).ToList();
 
             return listaDeComentarios;
         }

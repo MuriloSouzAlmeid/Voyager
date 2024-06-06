@@ -4,9 +4,9 @@ namespace VoyagerWebApi.Interfaces
 {
     public interface IComentariosRepository
     {
-        void Cadastrar(Comentarios novoComentario);
+        void Cadastrar(Comentario novoComentario);
         void Deletar (Guid idComentario);
-        Comentarios BuscarPorId(Guid idComentario);
-        List<Comentarios> ListarPorPostagem(Guid idPostagem);
+        Comentario BuscarPorId(Guid idComentario);
+        List<Comentario> ListarPorPostagem(Guid idPostagem);
     }
 }
