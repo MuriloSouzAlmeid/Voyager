@@ -102,5 +102,55 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(erro.Message);
             }
         }
+
+        [HttpGet("ListarViagensFuturas/{idUsuario}")]
+        public IActionResult ListarViagensFuturas(Guid idUsuario)
+        {
+            try
+            {
+                List<Viagens> litaDeViagens = _viagensRepository.ListarViagensPendentes(idUsuario);
+
+                return Ok(litaDeViagens);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpGet("BuscarViagemAtual/{idUsuario}")]
+        public IActionResult BuscarViagemAtual(Guid idUsuario)
+        {
+            try
+            {
+                Viagens viagemAtual = _viagensRepository.BuscarViagemEmAndamento(idUsuario);
+
+                if (viagemAtual == null)
+                {
+                    return NotFound("Não há viagens iniciadas atualmente");
+                }
+
+                return Ok(viagemAtual);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpGet("ListarViagensPassadas/{idUsuario}")]
+        public IActionResult ListarViagensPassadas(Guid idUsuario)
+        {
+            try
+            {
+                List<Viagens> listaDeViagens = _viagensRepository.ListarViagensConcluidas(idUsuario);
+
+                return Ok(listaDeViagens);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }
