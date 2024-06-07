@@ -81,5 +81,20 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(error.Message);
             }
         }
+
+        [HttpPut]
+        public IActionResult Atualizar (Guid idPostagens, CadastrarPostagemViewModel put)
+        {
+                try
+                {
+                _postagensViagens.Atualizar(idPostagens, put);
+
+                    return NoContent();
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+        }
     }
 }

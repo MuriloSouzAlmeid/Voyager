@@ -14,17 +14,29 @@ namespace VoyagerWebApi.Repositories
         {
             ctx = new VoyagerContext();
         }
-        public void Atualizar(Guid IdPostagemViagem, CadastrarAtividadesViewModel dadosAtualizados)
+
+        public void Atualizar(Guid IdPostagemViagem, CadastrarPostagemViewModel dadosAtualizados)
         {
-            //CadastrarAtividadesViewModel postagemBuscada = ctx.PostagensViagens.FirstOrDefault(dadosAtualizados)!;
+            PostagensViagens postagemBuscada = ctx.PostagensViagens.FirstOrDefault(x => x.ID == IdPostagemViagem)!;
 
-            //if (postagemBuscada != null)
-            //{
-            //    postagemBuscada = dadosAtualizados;
-            //}
+            if (postagemBuscada != null)
+            {
+                if (dadosAtualizados.Descricao != null)
+                {
+                    postagemBuscada.Descricao = dadosAtualizados.Descricao;
 
-            //ctx.SaveChanges();
-            throw new NotImplementedException();
+                }
+
+                if (dadosAtualizados.Titulo != null)
+                {
+                    postagemBuscada.Titulo = dadosAtualizados.Titulo;
+                }
+ 
+
+                ctx.PostagensViagens.Update(postagemBuscada);
+                ctx.SaveChanges();
+            }
+            
         }
 
         public PostagensViagens BuscarPorId(Guid IdPostagemViagem)

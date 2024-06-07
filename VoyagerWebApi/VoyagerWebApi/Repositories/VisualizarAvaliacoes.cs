@@ -13,9 +13,10 @@ namespace VoyagerWebApi.Repositories
             ctx = new VoyagerContext();
         }
 
-        public void Atualizar(Guid IdAvaliacao)
+        public void Atualizar(Guid IdUsuario, Guid IdPostagem)
         {
-            Avaliacoes avaliacoes = ctx.Avaliacoes.FirstOrDefault(a => a.ID == IdAvaliacao);
+            Avaliacoes avaliacoes = ctx.Avaliacoes.FirstOrDefault(a => a.IdUsuario == IdUsuario && a.IdPostagemViagem == IdPostagem)!;
+
             if (avaliacoes != null)
             {
                 if (avaliacoes.StatusAvaliacao == 1)
@@ -27,8 +28,15 @@ namespace VoyagerWebApi.Repositories
                     avaliacoes.StatusAvaliacao = 1;
                 }
                 ctx.Avaliacoes.Update(avaliacoes);
-                ctx.SaveChanges();            
+                ctx.SaveChanges();
             }
+        }
+
+        public Avaliacoes BuscarPorPostUsuario(Guid IdUsuario, Guid IdPostagem)
+        {
+            Avaliacoes avaliacaoBuscada = ctx.Avaliacoes.FirstOrDefault(a => a.IdUsuario == IdUsuario && a.IdPostagemViagem == IdPostagem)!;
+
+            return avaliacaoBuscada;
         }
 
         public void Cadastrar(Avaliacoes novaAvaliacao)
