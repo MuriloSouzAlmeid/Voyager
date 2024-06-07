@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VoyagerWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class VoyagerDB : Migration
+    public partial class VoyagerBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,39 +109,42 @@ namespace VoyagerWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Atividades",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DataAtividade = table.Column<DateTime>(type: "DATETIME", nullable: true),
+                    DescricaoAtividade = table.Column<string>(type: "TEXT", nullable: true),
+                    Concluida = table.Column<bool>(type: "BIT", nullable: true),
+                    IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Atividades", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Atividades_Viagem_IdPlanejamento",
+                        column: x => x.IdPlanejamento,
+                        principalTable: "Viagem",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EnderecosViagem",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Pais = table.Column<string>(type: "VARCHAR(100)", nullable: true),
-                    Cidade = table.Column<string>(type: "VARCHAR(200)", nullable: true),
-                    Logradouro = table.Column<string>(type: "VARCHAR(255)", nullable: true)
+                    PaisOrigem = table.Column<string>(type: "VARCHAR(100)", nullable: true),
+                    CidadeOrigem = table.Column<string>(type: "VARCHAR(200)", nullable: true),
+                    PaisDestino = table.Column<string>(type: "VARCHAR(100)", nullable: true),
+                    CidadeDestino = table.Column<string>(type: "VARCHAR(200)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EnderecosViagem", x => x.ID);
                     table.ForeignKey(
                         name: "FK_EnderecosViagem_Viagem_IdViagem",
-                        column: x => x.IdViagem,
-                        principalTable: "Viagem",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Planejamento",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Planejamento", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Planejamento_Viagem_IdViagem",
                         column: x => x.IdViagem,
                         principalTable: "Viagem",
                         principalColumn: "ID",
@@ -164,25 +167,6 @@ namespace VoyagerWebApi.Migrations
                         name: "FK_PostagemViagem_Viagem_IdViagem",
                         column: x => x.IdViagem,
                         principalTable: "Viagem",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Atividades",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TipoAtividade = table.Column<string>(type: "VARCHAR(255)", nullable: true),
-                    IdPlanejamento = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Atividades", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Atividades_Planejamento_IdPlanejamento",
-                        column: x => x.IdPlanejamento,
-                        principalTable: "Planejamento",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -286,7 +270,8 @@ namespace VoyagerWebApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_EnderecosViagem_IdViagem",
                 table: "EnderecosViagem",
-                column: "IdViagem");
+                column: "IdViagem",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EnderecoUsuario_IdUsuario",
@@ -298,12 +283,6 @@ namespace VoyagerWebApi.Migrations
                 name: "IX_GaleriaImagem_IdPostagemViagem",
                 table: "GaleriaImagem",
                 column: "IdPostagemViagem");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Planejamento_IdViagem",
-                table: "Planejamento",
-                column: "IdViagem",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostagemViagem_IdViagem",
@@ -352,9 +331,6 @@ namespace VoyagerWebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "GaleriaImagem");
-
-            migrationBuilder.DropTable(
-                name: "Planejamento");
 
             migrationBuilder.DropTable(
                 name: "PostagemViagem");

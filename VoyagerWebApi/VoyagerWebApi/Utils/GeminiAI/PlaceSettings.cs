@@ -2,9 +2,11 @@
 {
     public class PlaceSettings
     {
-        public string? nomelocal { get; set; }
-        public string? paislocal { get; set; }
-        public string? cidadelocal { get; set; }
-        public string? descricaolocal { get; set; }
+        public string? nome { get; set; }
+        public string? pais { get; set; }
+        public string? cidade { get; set; }
+        public string? descricao { get; set; }
+        public string? atividade { get; set; }
+        public string? imagem { get; set; }
     }
 }

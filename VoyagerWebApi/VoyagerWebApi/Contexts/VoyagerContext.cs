@@ -10,10 +10,9 @@ namespace VoyagerWebApi.Contexts
         public DbSet<EnderecosViagem> EnderecosViagem { get; set; }
         public DbSet<EnderecosUsuario> EnderecosUsuarios { get; set; }
         public DbSet<GaleriaImagens> GaleriaImagens { get; set; }
-        public DbSet<Planejamentos> Planejamentos { get; set; }
         public DbSet<PostagensViagens> PostagensViagens { get; set; }
         public DbSet<StatusViagens> StatusViagens { get; set; }
-        public DbSet<Atividade> TiposAtividade { get; set; }
+        public DbSet<Atividade> Atividades { get; set; }
         public DbSet<TiposViagem> TiposViagem { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Viagens> Viagens { get; set; }
