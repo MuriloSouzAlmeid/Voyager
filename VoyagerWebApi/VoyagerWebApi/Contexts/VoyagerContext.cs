@@ -16,9 +16,7 @@ namespace VoyagerWebApi.Contexts
         public DbSet<TiposViagem> TiposViagem { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Viagens> Viagens { get; set; }
-
-
-
+  
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
