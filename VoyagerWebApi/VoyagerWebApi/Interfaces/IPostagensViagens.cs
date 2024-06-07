@@ -12,5 +12,7 @@ namespace VoyagerWebApi.Interfaces
         void Atualizar(Guid IdPostagemViagem, CadastrarPostagemViewModel dadosAtualizados);
 
         PostagensViagens BuscarPorId (Guid IdPostagemViagem);
+
+        List<PostagensViagens> ListarPorPostCurtidoEPostado(Guid idUsuario);
     }
 }

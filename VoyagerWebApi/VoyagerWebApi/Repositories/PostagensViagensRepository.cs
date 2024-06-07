@@ -3,6 +3,7 @@ using VoyagerWebApi.ViewModels;
 using VoyagerWebApi.Domains;
 using VoyagerWebApi.Contexts;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace VoyagerWebApi.Repositories
 {
@@ -48,6 +49,29 @@ namespace VoyagerWebApi.Repositories
                 return null;
             }
             return postagemBuscada;
+        }
+
+        public List<PostagensViagens> ListarPorPostCurtidoEPostado(Guid idUsuario)
+        {
+            List<PostagensViagens> listaDePostagensTotal = ctx.PostagensViagens.Include(p => p.Avaliacoes).Include(p => p.Viagem).ToList();
+
+            List<PostagensViagens> listaDePostagensCurtidas = new List<PostagensViagens>();
+
+            foreach (PostagensViagens postagem in listaDePostagensTotal)
+            {
+                if(postagem.Avaliacoes != null)
+                {
+                    foreach (Avaliacoes avaliacao in postagem.Avaliacoes)
+                    {
+                        if(avaliacao.StatusAvaliacao == 1 && avaliacao.IdUsuario == idUsuario)
+                        {
+                            listaDePostagensCurtidas.Add(postagem);
+                        }
+                    }
+                }
+            }
+
+            return listaDePostagensCurtidas;
         }
 
         public void Cadastrar(Domains.PostagensViagens novaPostagem)

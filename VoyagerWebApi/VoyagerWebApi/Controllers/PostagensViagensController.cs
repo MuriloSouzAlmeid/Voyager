@@ -96,5 +96,20 @@ namespace VoyagerWebApi.Controllers
                     return BadRequest(e.Message);
                 }
         }
+
+        [HttpGet("ListarPostagensCurtidas/{idUsuario}")]
+        public IActionResult ListarCurtidas(Guid idUsuario)
+        {
+            try
+            {
+                List<PostagensViagens> listaDeCurtidas = _postagensViagens.ListarPorPostCurtidoEPostado(idUsuario);
+
+                return Ok(listaDeCurtidas);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }
