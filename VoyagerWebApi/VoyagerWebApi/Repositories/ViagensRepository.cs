@@ -62,10 +62,11 @@ namespace VoyagerWebApi.Repositories
 
         public List<Viagens> ListarViagensConcluidas(Guid idUsuario)
         {
-            List<Viagens> listaDeViagens = _context
-                .Viagens
+            List<Viagens> listaDeViagens = _context.Viagens
                 .Include(v => v.Atividades)
+                .Include(v => v.Endereco)
                 .Where(v => v.IdUsuario == idUsuario && v.StatusViagem.Status == "Concluida")
+                .OrderBy(v => v.DataInicial)
                 .ToList();
 
             return listaDeViagens;
@@ -76,7 +77,9 @@ namespace VoyagerWebApi.Repositories
             List<Viagens> listaDeViagens = _context
                 .Viagens
                 .Include(v => v.Atividades)
+                .Include(v => v.Endereco)
                 .Where(v => v.IdUsuario == idUsuario && v.StatusViagem.Status == "Pendente")
+                .OrderBy(v => v.DataInicial)
                 .ToList();
 
             return listaDeViagens;
