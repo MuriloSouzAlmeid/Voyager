@@ -79,5 +79,35 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(error.Message);
             }
         }
+
+        [HttpPut]
+        public IActionResult Atualizar(Guid idPostagens, CadastrarPostagemViewModel put)
+        {
+            try
+            {
+                _postagensViagens.Atualizar(idPostagens, put);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ListarPostagensCurtidas/{idUsuario}")]
+        public IActionResult ListarCurtidas(Guid idUsuario)
+        {
+            try
+            {
+                List<PostagensViagens> listaDeCurtidas = _postagensViagens.ListarPorPostCurtidoEPostado(idUsuario);
+
+                return Ok(listaDeCurtidas);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }

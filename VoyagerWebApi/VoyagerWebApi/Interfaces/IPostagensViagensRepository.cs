@@ -9,8 +9,10 @@ namespace VoyagerWebApi.Interfaces
 
         void Deletar(Guid IdPostagemViagem);
 
-        void Atualizar(Guid IdPostagemViagem, CadastrarAtividadesViewModel dadosAtualizados);
+        void Atualizar(Guid IdPostagemViagem, CadastrarPostagemViewModel dadosAtualizados);
 
         PostagensViagens BuscarPorId(Guid IdPostagemViagem);
+
+        List<PostagensViagens> ListarPorPostCurtidoEPostado(Guid idUsuario);
     }
 }
