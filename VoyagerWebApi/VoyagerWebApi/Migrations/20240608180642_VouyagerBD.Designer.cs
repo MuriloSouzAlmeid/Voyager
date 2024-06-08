@@ -12,8 +12,8 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240605181526_VoyagerBD")]
-    partial class VoyagerBD
+    [Migration("20240608180642_VouyagerBD")]
+    partial class VouyagerBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,7 +83,7 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comenario")
+                    b.Property<string>("ComentarioTexto")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("IdPostagemViagem")

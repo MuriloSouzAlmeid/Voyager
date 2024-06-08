@@ -80,7 +80,7 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Comenario")
+                    b.Property<string>("ComentarioTexto")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("IdPostagemViagem")

@@ -20,6 +20,6 @@ namespace VoyagerWebApi.Domains
         public Usuarios? Usuario { get; set; }
 
         [Column(TypeName ="TEXT")]
-        public string? ComenarioTexto { get; set; }
+        public string? ComentarioTexto { get; set; }
     }
 }
