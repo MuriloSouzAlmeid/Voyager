@@ -37,7 +37,7 @@ namespace VoyagerWebApi.Controllers
         }
 
         [HttpPost("{idViagem}")]
-        public IActionResult Cadastrar(Guid idViagem, CadastrarAtividadesViewModel atividade)
+        public IActionResult Cadastrar(Guid idViagem, CadastrarAtividadesViewModel[] atividades)
         {
             try
             {
@@ -48,7 +48,9 @@ namespace VoyagerWebApi.Controllers
                     return NotFound("Viagem não encontrada");
                 }
 
-                Atividade novaAtividade = new Atividade()
+                foreach (CadastrarAtividadesViewModel atividade in atividades) 
+                {
+                    Atividade novaAtividade = new Atividade()
                     {
                         IdViagem = idViagem,
                         Concluida = false,
@@ -57,7 +59,7 @@ namespace VoyagerWebApi.Controllers
                     };
 
                     _atividadesRepository.Cadastrar(novaAtividade);
-                
+                }
 
                 return Ok("Atividades Cadastradas");
             }

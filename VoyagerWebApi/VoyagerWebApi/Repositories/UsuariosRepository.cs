@@ -72,6 +72,8 @@ namespace VoyagerWebApi.Repositories
                 ID = u.ID,
                 Nome = u.Nome,
                 Email = u.Email,
+                Bio = u.Bio,
+                Foto = u.Foto,
                 EnderecoUsuario = u.EnderecoUsuario
             }).FirstOrDefault(u => u.ID == idUsuario)!;
 

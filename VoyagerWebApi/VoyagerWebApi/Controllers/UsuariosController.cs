@@ -145,7 +145,7 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPost("RedefinirSenha/{email}")]
+        [HttpPut("RedefinirSenha/{email}")]
         public IActionResult RedefinirSenha(string email, string novaSenha)
         {
             try

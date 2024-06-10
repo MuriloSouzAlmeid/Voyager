@@ -50,7 +50,7 @@ namespace VoyagerWebApi.Repositories
             return postagemBuscada;
         }
 
-        public List<PostagensViagens> ListarPorPostCurtidoEPostado(Guid idUsuario)
+        public List<PostagensViagens> ListarPorPostCurtidos(Guid idUsuario)
         {
             List<PostagensViagens> listaDePostagensTotal = ctx.PostagensViagens.Include(p => p.Avaliacoes).Include(p => p.Viagem).ToList();
 
@@ -97,6 +97,16 @@ namespace VoyagerWebApi.Repositories
 
                 ctx.SaveChanges();
             }
+        }
+
+        public List<PostagensViagens> ListarPorPostsPostados(Guid idUsuario)
+        {
+            List<PostagensViagens> listaDePosts = ctx.PostagensViagens
+                .Include(p => p.Viagem)
+                .Where(p => p.Viagem.IdUsuario == idUsuario).
+                ToList();
+
+            return listaDePosts;
         }
     }
 }

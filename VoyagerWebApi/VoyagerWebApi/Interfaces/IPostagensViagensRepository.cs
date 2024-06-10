@@ -13,6 +13,7 @@ namespace VoyagerWebApi.Interfaces
 
         PostagensViagens BuscarPorId(Guid IdPostagemViagem);
 
-        List<PostagensViagens> ListarPorPostCurtidoEPostado(Guid idUsuario);
+        List<PostagensViagens> ListarPorPostCurtidos(Guid idUsuario);
+        List<PostagensViagens> ListarPorPostsPostados(Guid idUsuario);
     }
 }

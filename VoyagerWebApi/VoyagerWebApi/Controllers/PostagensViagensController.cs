@@ -100,9 +100,24 @@ namespace VoyagerWebApi.Controllers
         {
             try
             {
-                List<PostagensViagens> listaDeCurtidas = _postagensViagens.ListarPorPostCurtidoEPostado(idUsuario);
+                List<PostagensViagens> listaDeCurtidas = _postagensViagens.ListarPorPostCurtidos(idUsuario);
 
                 return Ok(listaDeCurtidas);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpGet("ListarPostagensProprias/{idUsuario}")]
+        public IActionResult ListarPostsProprios(Guid idUsuario)
+        {
+            try
+            {
+                List<PostagensViagens> listaDePostagens = _postagensViagens.ListarPorPostsPostados(idUsuario);
+
+                return Ok(listaDePostagens);
             }
             catch (Exception erro)
             {
