@@ -25,7 +25,7 @@ namespace VoyagerWebApi.Controllers
             emailSendingService = service;
         }
 
-        [HttpGet]
+        [HttpGet("{idUsuario}")]
         public IActionResult BuscarPorId(Guid idUsuario) {
             try
             {
@@ -114,7 +114,7 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPost("AtualizarFotoPerfil/{idUsuario}")]
+        [HttpPut("AtualizarFotoPerfil/{idUsuario}")]
         public async Task<IActionResult> AtualizarFoto(Guid idUsuario, [FromForm] AtualizarFotoUsuarioViewModel arquivoForm)
         {
             try

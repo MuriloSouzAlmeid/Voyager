@@ -9,5 +9,7 @@ namespace VoyagerWebApi.Interfaces
         void Cadastrar(Avaliacoes novaAvaliacao);
 
         Avaliacoes BuscarPorPostUsuario(Guid IdUsuario, Guid IdPostagem);
+
+        bool VerificarCurtidoDescurtido(Guid idUsuario, Guid idPostagem);
     }
 }

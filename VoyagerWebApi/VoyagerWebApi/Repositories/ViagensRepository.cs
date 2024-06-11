@@ -31,6 +31,7 @@ namespace VoyagerWebApi.Repositories
             StatusViagens statusEmAndamento = _context.StatusViagens.FirstOrDefault(s => s.Status == "EmAndamento")!;
 
             Viagens viagemBuscada = _context.Viagens
+                .Include(v => v.Endereco)
                 .FirstOrDefault(v => v.IdStatusViagem == statusEmAndamento.ID && v.IdUsuario == idUsuario)!;
 
             if (viagemBuscada == null)

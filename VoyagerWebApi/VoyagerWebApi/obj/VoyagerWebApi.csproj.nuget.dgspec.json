@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\47015003805\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {}
+    "C:\\Users\\47015003805\\Desktop\\Voyager\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\47015003805\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {
+    "C:\\Users\\47015003805\\Desktop\\Voyager\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\47015003805\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\47015003805\\Desktop\\Voyager\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
         "projectName": "VoyagerWebApi",
-        "projectPath": "C:\\Users\\47015003805\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
+        "projectPath": "C:\\Users\\47015003805\\Desktop\\Voyager\\VoyagerWebApi\\VoyagerWebApi\\VoyagerWebApi.csproj",
         "packagesPath": "C:\\Users\\47015003805\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\47015003805\\Desktop\\VoyagerBackEnd\\VoyagerWebApi\\VoyagerWebApi\\obj\\",
+        "outputPath": "C:\\Users\\47015003805\\Desktop\\Voyager\\VoyagerWebApi\\VoyagerWebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\47015003805\\AppData\\Roaming\\NuGet\\NuGet.Config",

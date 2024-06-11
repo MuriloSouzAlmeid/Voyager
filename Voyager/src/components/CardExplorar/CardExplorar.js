@@ -21,7 +21,7 @@ export const CardExplorar = ({ urlImage, title }) => {
                             bottom: 12,
                             fontFamily: `MoonGet`
                         }}
-                        >{title}</TitleDefault>
+                        >{`${title.substr(0, 17)} ${(title.lenght > 18) ? "..." : ""}`}</TitleDefault>
                     </BoxThreeExplorar>
                 </BoxTwoExplorar>
             </BoxOneExplorar>

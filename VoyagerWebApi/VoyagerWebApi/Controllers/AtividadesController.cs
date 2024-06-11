@@ -88,5 +88,27 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(erro.Message);
             }
         }
+
+        [HttpPut("AtualizarStatusAtividade")]
+        public IActionResult AtualizarStatus(Guid idAtividade) 
+        {
+            try
+            {
+                Atividade atividadeBuscada = _atividadesRepository.BuscarPorId(idAtividade);
+
+                if (atividadeBuscada == null)
+                {
+                    return NotFound("Atividade não encontrada");
+                }
+
+                _atividadesRepository.AtualizarStatusAtividade(atividadeBuscada);
+
+                return Ok(atividadeBuscada);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }

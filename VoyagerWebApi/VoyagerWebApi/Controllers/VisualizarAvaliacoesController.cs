@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 using VoyagerWebApi.Contexts;
 using VoyagerWebApi.Domains;
 using VoyagerWebApi.Interfaces;
@@ -19,6 +20,21 @@ namespace VoyagerWebApi.Controllers
         {
             _VisualizarAvaliacoes = new VisualizarAvaliacoes();
             _context = new VoyagerContext();
+        }
+
+        [HttpGet("VerificarAvaliacao")]
+        public IActionResult Get(Guid idUsuario, Guid idPostagem) 
+        {
+            try
+            {
+                bool statusAvaliacao = _VisualizarAvaliacoes.VerificarCurtidoDescurtido(idUsuario, idPostagem);
+
+                return Ok(statusAvaliacao);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
         }
 
         [HttpPut("CurtirDescurtirPostagem")]

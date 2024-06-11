@@ -8,5 +8,6 @@ namespace VoyagerWebApi.Interfaces
         List<Atividade> ListarPorViagem(Guid idViagem);
         void Cadastrar(Atividade novaAtividade);
         void Deletar(Guid idAtividade);
+        void AtualizarStatusAtividade(Atividade atividade);
     }
 }

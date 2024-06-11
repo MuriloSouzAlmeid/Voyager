@@ -58,7 +58,7 @@ export const AcompanharViagem = ({ viagem, navigation}) => {
                       color="black"
                     />
                   </TextInfo>
-                  <TextInfo>...</TextInfo>
+                  <TextInfo>{viagem.endereco.cidadeDestino}</TextInfo>
                 </BoxInfo>
               </ContainerInfos>
             </ContentViagens>

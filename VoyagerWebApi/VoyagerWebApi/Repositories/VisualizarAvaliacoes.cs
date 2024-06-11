@@ -52,5 +52,20 @@ namespace VoyagerWebApi.Repositories
                 throw;
             }
         }
+
+        public bool VerificarCurtidoDescurtido(Guid idUsuario, Guid idPostagem)
+        {
+            Avaliacoes avaliacao = BuscarPorPostUsuario(idUsuario, idPostagem);
+
+            if (avaliacao != null)
+            {
+                if(avaliacao.StatusAvaliacao == 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

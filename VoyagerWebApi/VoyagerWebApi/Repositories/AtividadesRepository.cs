@@ -13,6 +13,25 @@ namespace VoyagerWebApi.Repositories
             _context = new VoyagerContext();
         }
 
+        public void AtualizarStatusAtividade(Atividade atividade)
+        {   
+            if (atividade != null)
+            {
+                if(atividade.Concluida == false)
+                {
+                    atividade.Concluida = true;
+                }
+                else
+                {
+                    atividade.Concluida = false;
+                }
+
+                _context.Atividades.Update(atividade);
+
+                _context.SaveChanges();
+            }
+        }
+
         public Atividade BuscarPorId(Guid idAtividade)
         {
             Atividade atividadeBuscada = _context.Atividades.FirstOrDefault(a => a.ID == idAtividade)!;
