@@ -40,7 +40,8 @@ namespace VoyagerWebApi.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email!),
                     new Claim(JwtRegisteredClaimNames.Name, usuarioBuscado.Nome!),
-                    new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.ID.ToString())
+                    new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.ID.ToString()),
+                    new Claim("foto", usuarioBuscado.Foto)
                 };
 
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("projeto-voyager-chave-autenticacao-webapi"));

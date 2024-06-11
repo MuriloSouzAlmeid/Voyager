@@ -108,5 +108,12 @@ namespace VoyagerWebApi.Repositories
 
             return listaDePosts;
         }
+
+        public List<PostagensViagens> ListarTodasPostagens()
+        {
+            List<PostagensViagens> listaDePostagens = ctx.PostagensViagens.Include(p => p.Comentarios).Include(p => p.Viagem).OrderBy(p => p.Viagem.DataFinal).ToList();
+
+            return listaDePostagens;
+        }
     }
 }

@@ -124,5 +124,20 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(erro.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult ListarTodasPostagens()
+        {
+            try
+            {
+                List<PostagensViagens> listaDePostagens = _postagensViagens.ListarTodasPostagens();
+
+                return Ok(listaDePostagens);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }
