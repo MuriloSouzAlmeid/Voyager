@@ -59,7 +59,8 @@ namespace VoyagerWebApi.Controllers
                 {
                     IdPostagemViagem = novoComentario.IdPostagem,
                     IdUsuario = novoComentario.IdUsuario,
-                    ComentarioTexto = novoComentario.ComentarioTexto
+                    ComentarioTexto = novoComentario.ComentarioTexto,
+                    DataComentario = novoComentario.DataComentario
                 };
 
                 _comentariosRepository.Cadastrar(comentario);

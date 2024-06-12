@@ -37,6 +37,7 @@ import moment from "moment";
 export const ViagemAtual = ({ navigation, route }) => {
   const [dadosViagem, setDadosViagem] = useState(null)
   const [listaAtividades, setListaAtividades] = useState(null)
+  const {user} = useContext(UserContext);
 
   const BuscarDadosViagem = () => {
     api.get(`/Viagens/${route.params.idViagem}`)
@@ -75,6 +76,7 @@ export const ViagemAtual = ({ navigation, route }) => {
     api.put(`/StatusViagens/FinalizarViagem?idViagem=${idViagem}`)
     .then(() => {
       alert("Viagem Finalizada")
+      navigation.replace("main")
     })
     .catch(erro => {
       alert(erro)
@@ -82,13 +84,25 @@ export const ViagemAtual = ({ navigation, route }) => {
     })
   }
 
+  const IniciarViagem = (idViagem) => {
+    api.put(`/StatusViagens/IniciarViagem?idViagem=${idViagem}&idUsuario=${user.jti}`)
+    .then(() => {
+      alert("Viagem Iniciada")
+      navigation.replace("main")
+    })
+    .catch(erro => {
+      alert(erro)
+      console.log(erro);
+    })
+  } 
+
   useEffect(() => {
     BuscarDadosViagem()
   }, [route.params])
 
   return dadosViagem != null ? (
     <Container>
-      <Back navigation={navigation} screen={'main'} />
+      <Back navigation={navigation} screen={"Viagens"} />
 
       <MinhasViagens />
 
@@ -164,9 +178,9 @@ export const ViagemAtual = ({ navigation, route }) => {
             }
           />
         ) : (
-          <ShadowDefaut
+          <ShadowDefault
             render={
-              <ButtonViagem bgColor={"#8531C6"}>
+              <ButtonViagem bgColor={"#8531C6"} onPress={() => IniciarViagem(dadosViagem.id)}>
                 <TextButtonViagem style={{ color: "#fff" }}>
                   Iniciar viagem
                 </TextButtonViagem>

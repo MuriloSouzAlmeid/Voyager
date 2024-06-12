@@ -9,12 +9,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import api from "../../service/Service";
 import { useFocusEffect } from "@react-navigation/native";
 import { UserContext } from "../../contexts/MyContext";
-
-const viagem = {
-  dataInicial: "29/05",
-  dataFinal: "02/06",
-  destino: "Ilhas Maldivas",
-};
+import { CompartilharViagemModal } from "../../components/Modal";
 
 export const Viagens = ({ navigation }) => {
 
@@ -28,9 +23,7 @@ export const Viagens = ({ navigation }) => {
         console.log(dadosViagemAtual);
       })
       .catch(erro => {
-        if (erro.response.status !== 404) {
-          alert(erro)
-        }
+        setDadosViagemAtual(null)
       })
   }
 
@@ -91,6 +84,10 @@ export const Viagens = ({ navigation }) => {
           <MaterialCommunityIcons name="airplane-plus" size={30} color="#fff" />
         </NovaViagem>
       </Shadow>
+
+      <CompartilharViagemModal
+        visible={true}
+      />
     </Container>
   );
 };

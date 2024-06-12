@@ -115,5 +115,20 @@ namespace VoyagerWebApi.Repositories
 
             return listaDePostagens;
         }
+
+        public PostagensViagens BuscarPostagemPorViagem(Guid idViagem)
+        {
+            PostagensViagens postBuscado = ctx.PostagensViagens
+                .Include(p => p.Viagem)
+                .Include(p => p.Viagem.Usuario)
+                .FirstOrDefault(p => p.IdViagem == idViagem)!;
+
+            if (postBuscado == null)
+            {
+                return null;
+            }
+
+            return postBuscado;
+        }
     }
 }

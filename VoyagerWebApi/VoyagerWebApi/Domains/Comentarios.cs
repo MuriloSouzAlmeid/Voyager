@@ -21,5 +21,8 @@ namespace VoyagerWebApi.Domains
 
         [Column(TypeName ="TEXT")]
         public string? ComentarioTexto { get; set; }
+
+        [Column(TypeName = "DATETIME")]
+        public DateTime? DataComentario { get; set; }
     }
 }

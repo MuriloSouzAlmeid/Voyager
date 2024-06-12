@@ -73,7 +73,7 @@ namespace VoyagerWebApi.Controllers
 
                 _enderecosRepository.Cadastrar(novoEndereco);
 
-                return Ok("Viagem Cadastrada!");
+                return Ok(novaViagem.ID);
             }
             catch (Exception erro)
             {

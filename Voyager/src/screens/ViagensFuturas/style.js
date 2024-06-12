@@ -19,8 +19,8 @@ export const ContainerPostIts = styled.View`
 
 export const PostItImage = styled(Image)`
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 120%;
+    height: 120%;
 `
 
 export const PostIts = styled.TouchableOpacity`

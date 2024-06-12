@@ -139,5 +139,25 @@ namespace VoyagerWebApi.Controllers
                 return BadRequest(erro.Message);
             }
         }
+
+        [HttpGet("BuscarPorViagem/{idViagem}")]
+        public IActionResult BuscarPorViagem(Guid idViagem)
+        {
+            try
+            {
+                PostagensViagens postagemBuscada = _postagensViagens.BuscarPostagemPorViagem(idViagem);
+
+                if(postagemBuscada == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(postagemBuscada);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }

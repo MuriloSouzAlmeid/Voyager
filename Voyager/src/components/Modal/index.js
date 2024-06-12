@@ -172,7 +172,7 @@ export const ModalComentario = ({
   );
 };
 
-export const CompartilharViagemModal = (visible, setVisible = null) => {
+export const CompartilharViagemModal = ({visible, setVisible = null}) => {
   return(
     <Modal animationType="fade" visible={visible} transparent={true}>
       <BackgroundModalRotina>

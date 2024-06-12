@@ -19,18 +19,16 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/MyContext";
 import moment from "moment";
 
-let viagensConcluidas = null;
-
 export const HistoricoViagens = ({ navigation }) => {
   
+  const [viagensConcluidas, setViagensConcluidas] = useState(null)
   const { user } = useContext(UserContext)
 
   const BuscarHistoricoDeViagens = () => {
     api.get(`/Viagens/ListarViagensPassadas/${user.jti}`)
       .then(response => {
-        viagensConcluidas = response.data;
-        console.log(viagensConcluidas);
-        console.log(response.data);
+        setViagensConcluidas(response.data);
+        // console.log(viagensConcluidas.dataFinal);
       })
       .catch(erro => {
         alert(erro)
@@ -55,8 +53,7 @@ export const HistoricoViagens = ({ navigation }) => {
       <ScrollView style={{ width: "100%" }}>
         {viagensConcluidas !== null ?
           <ContainerPostIts>
-            {[viagensConcluidas].map((viagem) => {
-              return (
+            {viagensConcluidas.map((viagem) => 
                 <PostIts
                   key={viagem.id}
                   onPress={() =>
@@ -69,11 +66,11 @@ export const HistoricoViagens = ({ navigation }) => {
                     }}
                   />
 
-                  {/* <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino> */}
+                  <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino>
                   <TextData>{moment(viagem.dataInicial).format("DD/MM")} - {moment(viagem.dataFinal).format("DD/MM")}</TextData>
                 </PostIts>
-              );
-            })}
+              
+            )}
           </ContainerPostIts>
           : null}
 

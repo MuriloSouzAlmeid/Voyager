@@ -26,6 +26,7 @@ export const Rota = styled.Text`
 
 export const Lugar = styled(Rota)`
   font-family: "MoonGet";
+  text-align: center;
 `;
 
 export const Checklist = styled.View`

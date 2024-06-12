@@ -28,8 +28,8 @@ export const Login = ({ navigation }) => {
 
   async function Login() {
     await api.post("/Login", {
-      email: email,
-      senha: senha,
+      email: "murilo.familia.sa@gmail.com",
+      senha: "murilo123",
     })
       .then((e) => {
         setUser(DecodeToken(e.data.token))

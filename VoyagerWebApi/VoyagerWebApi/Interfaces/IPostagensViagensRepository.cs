@@ -15,5 +15,6 @@ namespace VoyagerWebApi.Interfaces
         List<PostagensViagens> ListarTodasPostagens();
         List<PostagensViagens> ListarPorPostCurtidos(Guid idUsuario);
         List<PostagensViagens> ListarPorPostsPostados(Guid idUsuario);
+        PostagensViagens BuscarPostagemPorViagem(Guid idViagem);
     }
 }
