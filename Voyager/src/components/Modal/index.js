@@ -1,4 +1,4 @@
-import { FlatList, Modal, View } from "react-native";
+import { FlatList, Modal, Text, View } from "react-native";
 import {
   BackgroundModalRotina,
   ButtonModalRotina,
@@ -171,3 +171,17 @@ export const ModalComentario = ({
     </Modal>
   );
 };
+
+export const CompartilharViagemModal = (visible, setVisible = null) => {
+  return(
+    <Modal animationType="fade" visible={visible} transparent={true}>
+      <BackgroundModalRotina>
+        <ContainerModalRotina>
+          <TitleComment>Comentários</TitleComment>
+
+          <Text>Teste</Text>
+        </ContainerModalRotina>
+      </BackgroundModalRotina>
+    </Modal>
+  )
+}

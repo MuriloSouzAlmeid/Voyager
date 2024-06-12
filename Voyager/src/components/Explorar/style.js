@@ -6,7 +6,7 @@ export const ContainerExplorar = styled.View`
 `
 export const ContainerList = styled.View`
     width: 100%;
-    height: 400px;
+    height: 500px;
 `
 
 export const LoadingContent = styled.View`

@@ -5,7 +5,7 @@ import { ContainerExplorar, ContainerList, LoadingContent } from "./style"
 import { Grid } from "react-native-easy-grid"
 import api from "../../service/Service";
 import { TitleDefault } from "../Text/style"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 export const Explorar = () => {
@@ -15,29 +15,42 @@ export const Explorar = () => {
 
     const HandleSearch = (place) => {
         setShowLoading(true)
-        setPlacesList([])
         api.post(`/PlaceSearch?local=${place}`).then(response => {
             setPlacesList(response.data)
+            setShowLoading(false)
         }).catch(erro => {
             alert(erro)
+            setShowLoading(false)
         })
-        setShowLoading(false)
+        
     }
 
     return (
         <ContainerExplorar>
-            <SearchBar placeholder={`Explorar...`} value={searchText} onChangeText={text => setSearchText(text)} onBlur={() => {
+            <SearchBar placeholder={`Explorar...`} value={searchText} onChangeText={text => setSearchText(text)} onSubmitEditing={() => {
                 setShowLoading(true)
                 HandleSearch(searchText)
             }} />
-            {showLoading === true ? (
+
+            {showLoading ?
                 <LoadingContent>
                     <TitleDefault>
                         Buscando!
                     </TitleDefault>
-                    <ActivityIndicator />
+                    <ActivityIndicator  color={"#8531C6"} />
                 </LoadingContent>
-            ) : (placesList.length != 0 ? (
+                :
+                null}
+
+            {placesList.length === 0 && !showLoading ?
+                <LoadingContent>
+                    <TitleDefault>
+                        Informe um local!
+                    </TitleDefault>
+                </LoadingContent>
+                : null}
+
+            {placesList.length > 0 && !showLoading ?
                 <ContainerList>
                     <Grid style={{ padding: 15 }}>
                         <FlatList
@@ -49,13 +62,7 @@ export const Explorar = () => {
                         />
                     </Grid>
                 </ContainerList>
-            ) : (
-                <LoadingContent>
-                    <TitleDefault>
-                        Informe um local!
-                    </TitleDefault>
-                </LoadingContent>
-            ))}
+                : null}
         </ContainerExplorar>
     )
 }

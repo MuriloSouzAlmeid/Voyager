@@ -74,7 +74,7 @@ export const ViagemAtual = ({ navigation, route }) => {
   const FinalizarViagem = (idViagem) => {
     api.put(`/StatusViagens/FinalizarViagem?idViagem=${idViagem}`)
     .then(() => {
-      alert("Viagem Iniciada")
+      alert("Viagem Finalizada")
     })
     .catch(erro => {
       alert(erro)

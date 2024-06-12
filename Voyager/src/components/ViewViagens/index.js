@@ -78,7 +78,7 @@ export const PostItDefault = ({
   screen,
 }) => {
   return (
-    <ContainerBoxs onPress={() => navigation.navigate(screen)}>
+    <ContainerBoxs onPress={screen === "AcompanharViagem" ? null : () => navigation.navigate(screen)}>
       <BoxOneViagem color={postItColor}>
         <BoxTwoViagem color={postItColor}>
           <BoxThreeViagem color={postItColor}>
@@ -88,9 +88,12 @@ export const PostItDefault = ({
                   ? {
                       uri: `https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/historico.png?raw=true`,
                     }
-                  : {
+                  : ( icon === "futuras" ? {
                       uri: `https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/agenda.png?raw=true`,
                     }
+                  : {
+                    uri: `https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/binoculos.png?raw=true`
+                  })
               }
             />
 

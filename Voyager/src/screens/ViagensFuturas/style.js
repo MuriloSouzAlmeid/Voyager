@@ -1,7 +1,7 @@
 import { Image } from "react-native";
 import styled from "styled-components";
 
-export const TitleViagensFuturas = styled.Text`;
+export const TitleViagensFuturas = styled.Text`
     font-family: 'LouisGeorgeCafe-Bold';
     font-size: 20px;
     height: 80px;

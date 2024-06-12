@@ -13,7 +13,7 @@ import { Shadow } from "react-native-shadow-2";
 import { SearchBar } from "../../components/Search/style";
 import { NovaViagem } from "../Viagens/style";
 import { Explorar } from "../../components/Explorar/Explorar";
-import { ModalComentario } from "../../components/Modal";
+import { CompartilharViagemModal, ModalComentario } from "../../components/Modal";
 import { UserContext } from "../../contexts/MyContext";
 
 import api from "../../service/Service"

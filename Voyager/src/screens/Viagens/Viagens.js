@@ -28,7 +28,7 @@ export const Viagens = ({ navigation }) => {
         console.log(dadosViagemAtual);
       })
       .catch(erro => {
-        if(erro.response.status !== 404){
+        if (erro.response.status !== 404) {
           alert(erro)
         }
       })
@@ -38,6 +38,10 @@ export const Viagens = ({ navigation }) => {
     BuscarViagemAtual()
   }, [user])
 
+  useFocusEffect(useCallback(() => {
+    BuscarViagemAtual()
+  }, []))
+
   return (
     <Container>
       <MinhasViagens />
@@ -45,7 +49,15 @@ export const Viagens = ({ navigation }) => {
       {/* PostIt para acompanhar a sua viagem */}
       {dadosViagemAtual != null ?
         <AcompanharViagem viagem={dadosViagemAtual} navigation={navigation} />
-      : null}
+        :
+        <PostItDefault
+          title={"Acompanhar viagem"}
+          description={"Inicie uma viagem futura para acompanhá-la"}
+          postItColor={"#DEFF97"}
+          navigation={navigation}
+          screen={"AcompanharViagem"}
+        />
+      }
 
       {/* PostIt para ver o histórico de viagens*/}
       <PostItDefault
@@ -61,6 +73,7 @@ export const Viagens = ({ navigation }) => {
       <PostItDefault
         title={"Viagens futuras"}
         description={"Veja suas viagens que ainda irão acontecer"}
+        icon={"futuras"}
         postItColor={"#B7FBFF"}
         navigation={navigation}
         screen={"ViagensFuturas"}

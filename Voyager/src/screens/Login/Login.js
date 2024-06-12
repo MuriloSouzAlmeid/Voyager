@@ -17,6 +17,7 @@ import { Text } from "react-native";
 import api from "../../service/Service";
 import { UserContext } from "../../contexts/MyContext";
 import { DecodeToken } from "../../utils/Auth";
+import { CompartilharViagemModal } from "../../components/Modal";
 
 // Componente de tela de login
 export const Login = ({ navigation }) => {
@@ -27,9 +28,9 @@ export const Login = ({ navigation }) => {
 
   async function Login() {
     await api.post("/Login", {
-        email: email,
-        senha: senha,
-      })
+      email: email,
+      senha: senha,
+    })
       .then((e) => {
         setUser(DecodeToken(e.data.token))
         navigation.navigate("main");

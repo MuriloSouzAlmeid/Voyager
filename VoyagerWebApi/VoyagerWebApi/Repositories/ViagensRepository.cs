@@ -67,7 +67,7 @@ namespace VoyagerWebApi.Repositories
                 .Include(v => v.Atividades)
                 .Include(v => v.Endereco)
                 .Where(v => v.IdUsuario == idUsuario && v.StatusViagem.Status == "Concluida")
-                .OrderBy(v => v.DataInicial)
+                .OrderByDescending(v => v.DataFinal)
                 .ToList();
 
             return listaDeViagens;
