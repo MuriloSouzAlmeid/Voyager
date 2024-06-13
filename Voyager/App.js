@@ -38,18 +38,18 @@ export default function App() {
     <MyProvider >
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="main"
-            component={Main}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
+        <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
           />
 
+          <Stack.Screen
+            name="main"
+            component={Main}
+            options={{ headerShown: false }}
+          />
+          
           <Stack.Screen
             name="ViewPost"
             component={ViewPost}

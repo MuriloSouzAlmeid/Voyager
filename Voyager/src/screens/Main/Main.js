@@ -23,10 +23,11 @@ export const Main = ({ route }) => {
 
   return (
     <BottomTab.Navigator
+    
       screenOptions={({ route }) => ({
         initialRouteName: "ChatBot",
         headerShown: false,
-        tabBarStyle: { height: 60, borderTopWidth: 2, borderColor: "#000" },
+        tabBarStyle: { height: 60, borderTopWidth: 2, borderColor: "#000", zIndex: 100000000 },
         tabBarActiveBackgroundColor: "transparent",
         tabBarShowLabel: false,
         tabBarIcon: ({ focused }) => {
@@ -66,11 +67,6 @@ export const Main = ({ route }) => {
         },
       })}
     >
-      <BottomTab.Screen
-        name="ChatBot"
-        component={ChatBot}
-        options={{ tabBarButton: () => null }}
-      />
       <BottomTab.Screen name="Home" component={Home} />
       <BottomTab.Screen name="Viagens" component={Viagens} />
       <BottomTab.Screen name="Perfil" component={Perfil} />

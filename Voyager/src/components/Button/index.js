@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 export const Back = ({navigation, screen}) => {
   return (
     <ButtonBack
-      onPress={() => navigation.navigate(screen)}
+      onPress={() => navigation.replace(screen)}
     >
       <AntDesign name="back" size={40} color="black" />
     </ButtonBack>

@@ -20,9 +20,11 @@ import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import api from "../../service/Service";
+import { ChatBotModal } from "../Modal";
 
-export const PostFeed = ({ post, navigation, setModalComment, setComments, setPost }) => {
+export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) => {
   const [like, setLike] = useState(false);
+  
 
   async function GetComments(post) {
     await api.get(`/Comentarios/${post.id}`)
@@ -37,7 +39,7 @@ export const PostFeed = ({ post, navigation, setModalComment, setComments, setPo
 
   return (
     <ContainerBoxs
-      onPress={() => navigation.replace("ViewPost", { post: post })}
+      onPress={onPress}
     >
       <BoxOne>
         <BoxTwo>
@@ -103,6 +105,8 @@ export const PostFeed = ({ post, navigation, setModalComment, setComments, setPo
           </BoxThree>
         </BoxTwo>
       </BoxOne>
+
+      
     </ContainerBoxs>
   );
 };

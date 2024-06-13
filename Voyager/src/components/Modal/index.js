@@ -4,6 +4,7 @@ import {
   ButtonModalRotina,
   ContainerComment,
   ContainerListComment,
+  ContainerModalCompartilhar,
   ContainerModalRotina,
   ContainerText,
   ContentComment,
@@ -13,6 +14,7 @@ import {
   LabelModalRotina,
   TextComment,
   TitleComment,
+  TitleCompartilhar,
   UserComment,
 } from "../../screens/CriarRotina/style";
 import { Shadow } from "react-native-shadow-2";
@@ -30,6 +32,8 @@ import {
 } from "../Shadow";
 import api from "../../service/Service";
 import { useEffect, useState } from "react";
+import { ChatBot } from "../../screens/Chat/chatbot";
+import { ButtonModal, ButtonModalBox, TextModal } from "./style";
 
 export const ModalRotina = ({ visible, setVisible }) => {
   return (
@@ -172,16 +176,92 @@ export const ModalComentario = ({
   );
 };
 
-export const CompartilharViagemModal = ({visible, setVisible = null}) => {
-  return(
+export const CompartilharViagemModal = ({ navigation, visible, setVisible = null }) => {
+  return (
     <Modal animationType="fade" visible={visible} transparent={true}>
       <BackgroundModalRotina>
-        <ContainerModalRotina>
-          <TitleComment>Comentários</TitleComment>
+        <ContainerModalCompartilhar>
+          <TitleCompartilhar>Compartilhe sua viagem!</TitleCompartilhar>
 
-          <Text>Teste</Text>
-        </ContainerModalRotina>
+          <TextModal>Seu post é muito importante para nós, compartilhe a foto com seus amigos e todos passageiros da voyager.</TextModal>
+
+          <ButtonModalBox>
+            <ShadowButton3
+              render={
+                <ButtonModal onPress={() => setVisible(false)}>
+                  <TitleDefault style={{ color: `#8531C6` }}>
+                    adicionar
+                  </TitleDefault>
+                </ButtonModal>
+              }
+            />
+
+            <Shadow
+              startColor="#000"
+              endColor="#000"
+              distance={0}
+              offset={[4, 4]}
+              containerStyle={{ margin: 10, width: 250 }}
+            >
+              <ButtonModal
+                  onPress={() => setVisible(false)}
+                  style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
+                >
+                  <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
+                </ButtonModal>
+            </Shadow>
+          </ButtonModalBox>
+        </ContainerModalCompartilhar>
       </BackgroundModalRotina>
+    </Modal>
+  )
+}
+
+export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) => {
+  return (
+    <Modal animationType="fade" visible={visible} transparent={true}>
+      <BackgroundModalRotina>
+        <ContainerModalCompartilhar>
+          <TitleCompartilhar>Viagem Iniciada!</TitleCompartilhar>
+
+          <TextModal>Acompanhe sua viagem conosco. E embarque nessa!</TextModal>
+
+          <ButtonModalBox>
+            <ShadowButton3
+              render={
+                <ButtonModal onPress={() => setVisible(false)}>
+                  <TitleDefault style={{ color: `#8531C6` }}>
+                    adicionar
+                  </TitleDefault>
+                </ButtonModal>
+              }
+            />
+
+            <Shadow
+              startColor="#000"
+              endColor="#000"
+              distance={0}
+              offset={[4, 4]}
+              containerStyle={{ margin: 10, width: 250 }}
+            >
+              <ButtonModal
+                  onPress={() => setVisible(false)}
+                  style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
+                >
+                  <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
+                </ButtonModal>
+            </Shadow>
+          </ButtonModalBox>
+        </ContainerModalCompartilhar>
+      </BackgroundModalRotina>
+    </Modal>
+  )
+}
+
+export const ChatBotModal = ({ showModal, setShowModal, localViagem }) => {
+  return (
+    <Modal animationType="none" visible={showModal} transparent={true}>
+      <ChatBot setShowModal={setShowModal} localVigem={localViagem} />
     </Modal>
   )
 }

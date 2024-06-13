@@ -53,7 +53,7 @@ namespace VoyagerWebApi.Controllers
 
                 _postagensViagens.Cadastrar(postagensViagens);
 
-                return Ok("postagens FOI");
+                return Ok(postagensViagens.ID);
             }
             catch (Exception error)
             {

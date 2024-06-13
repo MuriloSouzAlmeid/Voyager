@@ -5,8 +5,6 @@ namespace VoyagerWebApi.ViewModels
 {
     public class GaleriaImagensViewModel
     {
-        public Guid IdPostagem { get; set; }
-
         [NotMapped]
         [JsonIgnore]
         public IFormFile? ArquivoMedia { get; set; }

@@ -1,10 +1,16 @@
 import styled, { css } from "styled-components";
 import { InputCadastarViagem } from "../../components/Comps/style";
+import { Container } from "../../components/container/style";
+
+export const ContainerScreenChat = styled(Container)`
+    height: auto;
+    margin-bottom: 60px;
+`
 
 export const ContainerChat = styled.View`
     height: 100%;
     width: 100%;
-    padding: 16% 5% 20px;
+    padding: 10% 5% 20px;
     align-items: center;
     background-color: white;
     gap: 20px;

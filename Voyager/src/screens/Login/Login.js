@@ -25,6 +25,8 @@ export const Login = ({ navigation }) => {
   const [senha, setSenha] = useState('matheus');
   const { user, setUser } = useContext(UserContext);
 
+  const [showModal, setShowModal] = useState(true);
+
 
   async function Login() {
     await api.post("/Login", {
@@ -101,6 +103,11 @@ export const Login = ({ navigation }) => {
           </FormBox>
         </MainContent>
       </MainContentScroll>
+
+      <CompartilharViagemModal
+        visible={showModal}
+        setVisible={setShowModal}
+      />
     </Container>
   );
 };

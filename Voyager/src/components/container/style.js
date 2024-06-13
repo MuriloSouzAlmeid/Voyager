@@ -2,7 +2,7 @@ import { FlatList, ScrollView } from "react-native";
 import styled from "styled-components";
 
 export const Container = styled.SafeAreaView`
-flex: 1; 
+height: 100%;
 align-items:center;
 background-color: #FCEDFF;
 `

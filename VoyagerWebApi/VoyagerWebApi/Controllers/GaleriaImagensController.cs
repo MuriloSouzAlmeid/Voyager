@@ -51,24 +51,31 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CadastrarAsync([FromForm] GaleriaImagensViewModel galeriaFotos)
+        [HttpPost("{idPostagem}")]
+        public async Task<IActionResult> CadastrarAsync(Guid idPostagem, [FromForm] IFormFile[] galeriaFotos)
         {
             try
             {
-                GaleriaImagens galeria = new GaleriaImagens();
-
-                galeria.IdPostagemViagem = galeriaFotos.IdPostagem;
-
+         
                 //Define o nome a partir do seu container no blob
                 var containerName = "voyagercontainerblob";
 
                 //Definindo a string de conexão
                 var connectionString = "DefaultEndpointsProtocol=https;AccountName=voyagerblobstorage;AccountKey=KUCXzCqDYUNdIBbY9AM/qA1EA0Rw95VMMrT/+ceKyOwa/HbDiTmQlh6QN6beAAw0g/GQx/55x37k+AStjnaDRA==;EndpointSuffix=core.windows.net";
 
-                galeria.Media = await AzureBlobStorageHelper.UploadImageBlobAsync(galeriaFotos.ArquivoMedia!, connectionString, containerName);
 
-                _galeriaImagensRepository.CadastrarFoto(galeria);
+                foreach (IFormFile arquivo in galeriaFotos)
+                {
+                    GaleriaImagens galeria = new GaleriaImagens();
+
+                    galeria.IdPostagemViagem = idPostagem;
+
+                    galeria.Media = await AzureBlobStorageHelper.UploadImageBlobAsync(arquivo!, connectionString, containerName);
+
+                    _galeriaImagensRepository.CadastrarFoto(galeria);
+                }
+
+
 
                 return Ok("cadastrado");
             }

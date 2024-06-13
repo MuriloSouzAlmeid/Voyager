@@ -13,7 +13,7 @@ import { Shadow } from "react-native-shadow-2";
 import { SearchBar } from "../../components/Search/style";
 import { NovaViagem } from "../Viagens/style";
 import { Explorar } from "../../components/Explorar/Explorar";
-import { CompartilharViagemModal, ModalComentario } from "../../components/Modal";
+import { ChatBotModal, CompartilharViagemModal, ModalComentario } from "../../components/Modal";
 import { UserContext } from "../../contexts/MyContext";
 
 import api from "../../service/Service"
@@ -21,17 +21,17 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const mockFeed = [
   {
-    title: "Pedro - Roma",
+    title: "Roma",
     description:
       "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
   },
   {
-    title: "Renato - Paris",
+    title: "Paris",
     description:
       "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
   },
   {
-    title: "Murilo - Japão",
+    title: "Japão",
     description:
       "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
   },
@@ -41,6 +41,8 @@ export const Home = ({ navigation, route }) => {
   const [guia, setGuia] = useState("feed");
   const [modalComment, setModalComment] = useState(false);
   const [comments, setComments] = useState(null)
+
+  const [showModalChat, setShowModalChat] = useState(false)
 
   const { user } = useContext(UserContext);
 
@@ -88,6 +90,7 @@ export const Home = ({ navigation, route }) => {
               setComments={setComments}
               post={item}
               navigation={navigation}
+              onPress={() => setShowModalChat(true)}
             />
           )}
           showsVerticalScrollIndicator={false}
@@ -102,6 +105,12 @@ export const Home = ({ navigation, route }) => {
         comments={comments}
         visible={modalComment}
         setVisible={setModalComment}
+      />
+
+      <ChatBotModal
+        showModal={showModalChat}
+        setShowModal={setShowModalChat}
+        localViagem={"Roma"}
       />
     </Container>
   );
