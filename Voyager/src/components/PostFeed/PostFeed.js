@@ -82,7 +82,7 @@ export const PostFeed = ({ post, navigation, setModalComment, setComments, setPo
                 <TitlePreviewFeed>{post.titulo}</TitlePreviewFeed>
 
                 <TextPreviewFeed>
-                  {post.descricao.substr(0, 57)}...
+                  ...
                 </TextPreviewFeed>
               </ContentPreviewFeed>
 

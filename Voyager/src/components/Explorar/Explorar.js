@@ -13,21 +13,20 @@ export const Explorar = () => {
     const [showLoading, setShowLoading] = useState(false)
     const [placesList, setPlacesList] = useState([])
 
-    const HandleSearch = (place) => {
+    const HandleSearch = async (place) => {
         setShowLoading(true)
-        api.post(`/PlaceSearch?local=${place}`).then(response => {
+        await api.post(`/PlaceSearch?local=${place}`).then(response => {
             setPlacesList(response.data)
-            setShowLoading(false)
         }).catch(erro => {
             alert(erro)
-            setShowLoading(false)
         })
+        setShowLoading(false)
         
     }
 
     return (
         <ContainerExplorar>
-            <SearchBar placeholder={`Explorar...`} value={searchText} onChangeText={text => setSearchText(text)} onSubmitEditing={() => {
+            <SearchBar placeholder={`Explorar...`} value={searchText} onChangeText={text => setSearchText(text)} onEndEditing={() => {
                 setShowLoading(true)
                 HandleSearch(searchText)
             }} />

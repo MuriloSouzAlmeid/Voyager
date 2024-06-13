@@ -16,6 +16,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createContext, useEffect, useState, useContext } from "react";
 import { DecodeToken } from "../../utils/Auth";
 import { UserContext } from "../../contexts/MyContext";
+import { ChatBot } from "../Chat/chatbot";
 
 export const Main = ({ route }) => {
   const BottomTab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ export const Main = ({ route }) => {
   return (
     <BottomTab.Navigator
       screenOptions={({ route }) => ({
-        initialRouteName: "Home",
+        initialRouteName: "ChatBot",
         headerShown: false,
         tabBarStyle: { height: 60, borderTopWidth: 2, borderColor: "#000" },
         tabBarActiveBackgroundColor: "transparent",
@@ -65,6 +66,11 @@ export const Main = ({ route }) => {
         },
       })}
     >
+      <BottomTab.Screen
+        name="ChatBot"
+        component={ChatBot}
+        options={{ tabBarButton: () => null }}
+      />
       <BottomTab.Screen name="Home" component={Home} />
       <BottomTab.Screen name="Viagens" component={Viagens} />
       <BottomTab.Screen name="Perfil" component={Perfil} />
