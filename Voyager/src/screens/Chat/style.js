@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { InputCadastarViagem } from "../../components/Comps/style";
 
 export const ContainerChat = styled.View`
@@ -11,18 +11,15 @@ export const ContainerChat = styled.View`
 `
 
 export const BotaoVoltarStyle = styled.TouchableOpacity`
-    position: absolute;
-    left: 4%;
-    top: 10%;
     height: 35px;
     width: 35px;
-    z-index: 10;
 `
 
 export const HeaderChat = styled.View`
     flex-direction: row;
-    width: 75%;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 20px;
     align-items: center;
     height: 80px;
 `
@@ -46,7 +43,7 @@ export const LogoGemini = styled.Image`
 
 export const ChatSectionBox = styled.ScrollView`
     width: 100%;
-    border: 1px solid black;
+    display: flex;
     margin-bottom: 70px;
     overflow-y: hidden;
     /* justify-content: center;
@@ -56,4 +53,33 @@ export const ChatSectionBox = styled.ScrollView`
 export const InputPromptStyle = styled(InputCadastarViagem)`
     width: 345px;
     padding: 0 20px;
+`
+
+export const PromptChatStyleShadow = styled.View`
+    background-color: black;
+    border-radius: 15px 15px ${props => props.type === "usuario" ? "0px 15px" : "15px 0px"};
+    align-self: ${props => props.type == "usuario" ? "flex-end" : "flex-start"};
+    width: 250px;
+    padding: 3px 0 0;
+    margin-left: ${props => props.type !== "usuario" ? "3px" : ""};
+    position: relative;
+`
+
+export const PromptChatStyle = styled(PromptChatStyleShadow)`
+    padding: 10px 18px;
+    z-index: 100;
+    max-height: 100%;
+    border: 2px solid black;
+    position: relative;
+    right: 2px;
+    top: -3px;
+    background-color: ${props => props.type == "usuario" ? "#FFF" : "#9077C7"};
+    margin-left: 0;
+`
+
+export const PromptChatText = styled.Text`
+    text-align: start;
+    /* font-family: "LouisGeorgeCafe-Light"; */
+    font-size: 14px;
+    color: ${props => (props.type === "usuario") ? "#8531C6" : "#FFF"};
 `
