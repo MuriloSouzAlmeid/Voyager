@@ -133,7 +133,7 @@ const PromptChat = ({ type, mensagem }) => {
 };
 
 //Elemento que de fato será a tela do ChatBot
-export const ChatBot = ({ localVigem }) => {
+export const ChatBot = ({ navigation, route }) => {
   //States
   const [prompt, setPrompt] = useState("");
   const [historicoChat, setHistoricoChat] = useState([]);
@@ -155,8 +155,17 @@ E muito mais!
 Conte comigo para tornar sua viagem inesquecível! ✈️
   `
 
+  //função para sair do chat
+  const CloseChatBot = () => {
+    setHistoricoChat([])
+    navigation.navigate("Home")
+  }
+
   //Função que irá enviar o prompt ao gemini e obter a resposta
   const PromptSubmit = (prompt) => {
+    if(prompt === ""){
+      return null;
+    }
     
     historicoChat.push({ id: Date.now(), texto: prompt.trim() });
 
@@ -202,7 +211,7 @@ Conte comigo para tornar sua viagem inesquecível! ✈️
           {/* Header com as logos */}
           <HeaderChat>
             {/* Botão voltar */}
-            <BotaoVoltar onPress={() => alert("Voltando")} />
+            <BotaoVoltar onPress={() => CloseChatBot() } />
             <LogoVoyager
               source={{
                 uri: "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/logoVoyager.png",

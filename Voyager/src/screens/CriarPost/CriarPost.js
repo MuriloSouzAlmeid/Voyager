@@ -24,7 +24,7 @@ export const CriarPost = ({ navigation }) => {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            }).then(() => console.log(`${index + 1}º imagem cadastrada`)).catch((e) => console.log(e) && alert(e))
+            }).catch((e) => console.log(e) && alert(e))
         });
 
         alert("Cadastrou tudo")

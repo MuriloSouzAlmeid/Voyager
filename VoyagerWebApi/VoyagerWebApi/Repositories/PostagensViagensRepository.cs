@@ -111,7 +111,7 @@ namespace VoyagerWebApi.Repositories
 
         public List<PostagensViagens> ListarTodasPostagens()
         {
-            List<PostagensViagens> listaDePostagens = ctx.PostagensViagens.Include(p => p.Comentarios).Include(p => p.Viagem).OrderBy(p => p.Viagem.DataFinal).ToList();
+            List<PostagensViagens> listaDePostagens = ctx.PostagensViagens.Include(p => p.Comentarios).Include(p => p.Viagem).Include(p => p.Viagem.Usuario).OrderBy(p => p.Viagem.DataFinal).ToList();
 
             return listaDePostagens;
         }

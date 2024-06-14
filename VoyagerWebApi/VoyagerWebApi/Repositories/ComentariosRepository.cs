@@ -48,7 +48,7 @@ namespace VoyagerWebApi.Repositories
         public List<Comentarios> ListarPorPostagem(Guid idPostagem)
         {
             //List<Comentarios> listaDeComentarios = _context.Comentarios.Where(a => a.IdPostagemViagem == idPostagem).ToList();
-            List<Comentarios> listaDeComentarios = _context.Comentarios.Include(c => c.Usuario).Where(c => c.IdPostagemViagem == idPostagem).ToList();
+            List<Comentarios> listaDeComentarios = _context.Comentarios.Include(c => c.Usuario).Where(c => c.IdPostagemViagem == idPostagem).OrderByDescending(c => c.DataComentario).ToList();
 
             return listaDeComentarios;
         }

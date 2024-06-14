@@ -13,3 +13,9 @@ export const LocalMapBox = styled.View`
     justify-content: center;
     align-items: center;
 `
+
+export const TitleInfoLocal = styled.Text`
+    font-size: 24px;
+    font-family: MoonGet;
+    text-align: center;
+`
