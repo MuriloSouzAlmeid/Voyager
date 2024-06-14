@@ -19,6 +19,7 @@ import { RedefinirSenha } from "./src/screens/RedefinirSenha/RedefinirSenha";
 import { Navegacao } from "./src/screens/Navegacao/Navegacao";
 import { MyProvider } from "./src/contexts/MyContext";
 import { ChatBot } from "./src/screens/Chat/chatbot";
+import { InfoLocal } from "./src/screens/InfoLocal/InfoLocal";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -38,7 +39,7 @@ export default function App() {
     <MyProvider >
       <NavigationContainer>
         <Stack.Navigator>
-        <Stack.Screen
+          <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
@@ -49,7 +50,7 @@ export default function App() {
             component={Main}
             options={{ headerShown: false }}
           />
-          
+
           <Stack.Screen
             name="ViewPost"
             component={ViewPost}

@@ -90,14 +90,13 @@ export const Home = ({ navigation, route }) => {
               setComments={setComments}
               post={item}
               navigation={navigation}
-              onPress={() => setShowModalChat(true)}
             />
           )}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
       ) : (
-        <Explorar />
+        <Explorar navigation={navigation} />
       )}
 
       <ModalComentario
@@ -105,12 +104,6 @@ export const Home = ({ navigation, route }) => {
         comments={comments}
         visible={modalComment}
         setVisible={setModalComment}
-      />
-
-      <ChatBotModal
-        showModal={showModalChat}
-        setShowModal={setShowModalChat}
-        localViagem={"Roma"}
       />
     </Container>
   );

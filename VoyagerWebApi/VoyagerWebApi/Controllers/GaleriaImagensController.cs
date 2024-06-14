@@ -14,10 +14,12 @@ namespace VoyagerWebApi.Controllers
     public class GaleriaImagensController : ControllerBase
     {
         private readonly IGaleriaImagensRepository _galeriaImagensRepository;
+        private readonly IPostagensViagensRepository _postagensViagensRepository;
 
         public GaleriaImagensController()
         {
             _galeriaImagensRepository = new GaleriaImagensRepository();
+            _postagensViagensRepository = new PostagensViagensRepository();
         }
 
         [HttpGet("{idPostagem}")]
@@ -51,11 +53,17 @@ namespace VoyagerWebApi.Controllers
             }
         }
 
-        [HttpPost("{idPostagem}")]
-        public async Task<IActionResult> CadastrarAsync(Guid idPostagem, [FromForm] IFormFile[] galeriaFotos)
+        [HttpPost]
+        public async Task<IActionResult> CadastrarAsync([FromForm] GaleriaImagensViewModel galeriaFotos)
         {
             try
             {
+                PostagensViagens postatgemBuscada = _postagensViagensRepository.BuscarPorId(galeriaFotos.IdPostagem);
+
+                if (postatgemBuscada == null)
+                {
+                    return NotFound("Postagem não encontrada");
+                }
          
                 //Define o nome a partir do seu container no blob
                 var containerName = "voyagercontainerblob";
@@ -63,25 +71,20 @@ namespace VoyagerWebApi.Controllers
                 //Definindo a string de conexão
                 var connectionString = "DefaultEndpointsProtocol=https;AccountName=voyagerblobstorage;AccountKey=KUCXzCqDYUNdIBbY9AM/qA1EA0Rw95VMMrT/+ceKyOwa/HbDiTmQlh6QN6beAAw0g/GQx/55x37k+AStjnaDRA==;EndpointSuffix=core.windows.net";
 
+               
+                GaleriaImagens galeria = new GaleriaImagens();
 
-                foreach (IFormFile arquivo in galeriaFotos)
-                {
-                    GaleriaImagens galeria = new GaleriaImagens();
+                galeria.IdPostagemViagem = galeriaFotos.IdPostagem;
 
-                    galeria.IdPostagemViagem = idPostagem;
+                galeria.Media = await AzureBlobStorageHelper.UploadImageBlobAsync(galeriaFotos.Arquivo!, connectionString, containerName);
 
-                    galeria.Media = await AzureBlobStorageHelper.UploadImageBlobAsync(arquivo!, connectionString, containerName);
-
-                    _galeriaImagensRepository.CadastrarFoto(galeria);
-                }
-
-
-
+                _galeriaImagensRepository.CadastrarFoto(galeria);
+                
                 return Ok("cadastrado");
             }
             catch (Exception erro)
             {
-                return BadRequest(erro.Message);
+               return BadRequest(erro.Message);
             }
         }
 

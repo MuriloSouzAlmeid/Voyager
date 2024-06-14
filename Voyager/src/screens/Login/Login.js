@@ -17,7 +17,7 @@ import { Text } from "react-native";
 import api from "../../service/Service";
 import { UserContext } from "../../contexts/MyContext";
 import { DecodeToken } from "../../utils/Auth";
-import { CompartilharViagemModal } from "../../components/Modal";
+import { CompartilharViagemModal, ViagemIniciadaModal } from "../../components/Modal";
 
 // Componente de tela de login
 export const Login = ({ navigation }) => {
@@ -104,10 +104,6 @@ export const Login = ({ navigation }) => {
         </MainContent>
       </MainContentScroll>
 
-      <CompartilharViagemModal
-        visible={showModal}
-        setVisible={setShowModal}
-      />
     </Container>
   );
 };

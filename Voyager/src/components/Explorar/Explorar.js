@@ -8,7 +8,7 @@ import { TitleDefault } from "../Text/style"
 import { useEffect, useState } from "react"
 
 
-export const Explorar = () => {
+export const Explorar = ({navigation}) => {
     const [searchText, setSearchText] = useState("")
     const [showLoading, setShowLoading] = useState(false)
     const [placesList, setPlacesList] = useState([])
@@ -55,7 +55,7 @@ export const Explorar = () => {
                         <FlatList
                             horizontal={false}
                             data={placesList}
-                            renderItem={({ item }) => <CardExplorar urlImage={item.imagem} title={item.nome} />}
+                            renderItem={({ item }) => <CardExplorar navigation={navigation} dadosLocal={item} />}
                             numColumns={2}
                             showsVerticalScrollIndicator={false}
                         />

@@ -53,11 +53,7 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
 
             {/* Botões de comentar e gostei */}
             <ContainerIcons>
-              <TouchableOpacity onPress={() => {
-                GetComments(post)
-                setPost(post)
-                setModalComment(true)
-              }}>
+              <TouchableOpacity onPress={() => navigation.navigate("ChatBot")}>
                 <MaterialCommunityIcons
                   name="comment-text-outline"
                   size={24}

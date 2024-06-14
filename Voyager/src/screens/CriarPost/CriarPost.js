@@ -8,6 +8,29 @@ import { ScrollView } from "react-native";
 
 
 export const CriarPost = ({ navigation }) => {
+    async function PostImages(idPostagem, array) {
+
+        array.forEach( async (imagem, index) => {
+            const form = new FormData();
+
+            form.append("IdPostagem", idPostagem)
+            form.append("Arquivo", {
+                uri: imagem,
+                name: `image.${imagem.split(".").pop()}`,
+                type: `image/${imagem.split(".").pop()}`,
+            });
+
+            await api.post(`/GaleriaImagens`, form, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(() => console.log(`${index + 1}º imagem cadastrada`)).catch((e) => console.log(e) && alert(e))
+        });
+
+        alert("Cadastrou tudo")
+
+    }
+    
     return (
         <ScrollView>
             <Container>

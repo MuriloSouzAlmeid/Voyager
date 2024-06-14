@@ -190,7 +190,7 @@ export const CompartilharViagemModal = ({ navigation, visible, setVisible = null
               render={
                 <ButtonModal onPress={() => setVisible(false)}>
                   <TitleDefault style={{ color: `#8531C6` }}>
-                    adicionar
+                    compartilhar
                   </TitleDefault>
                 </ButtonModal>
               }
@@ -204,7 +204,7 @@ export const CompartilharViagemModal = ({ navigation, visible, setVisible = null
               containerStyle={{ margin: 10, width: 250 }}
             >
               <ButtonModal
-                  onPress={() => setVisible(false)}
+                  onPress={() => navigation.replace("Viagens")}
                   style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
                 >
                   <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
@@ -224,14 +224,14 @@ export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) 
         <ContainerModalCompartilhar>
           <TitleCompartilhar>Viagem Iniciada!</TitleCompartilhar>
 
-          <TextModal>Acompanhe sua viagem conosco. E embarque nessa!</TextModal>
+          <TextModal>Acompanhe sua jornada pelo aplicativo e tenha acesso a todas as informações e recursos para tornar sua experiência ainda mais completa. Aproveite sua viagem com a Voyager!</TextModal>
 
           <ButtonModalBox>
             <ShadowButton3
               render={
                 <ButtonModal onPress={() => setVisible(false)}>
                   <TitleDefault style={{ color: `#8531C6` }}>
-                    adicionar
+                    Acompanhar viagem
                   </TitleDefault>
                 </ButtonModal>
               }
@@ -245,7 +245,7 @@ export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) 
               containerStyle={{ margin: 10, width: 250 }}
             >
               <ButtonModal
-                  onPress={() => setVisible(false)}
+                  onPress={() => navigation.replace("Viagens")}
                   style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
                 >
                   <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
@@ -254,14 +254,6 @@ export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) 
           </ButtonModalBox>
         </ContainerModalCompartilhar>
       </BackgroundModalRotina>
-    </Modal>
-  )
-}
-
-export const ChatBotModal = ({ showModal, setShowModal, localViagem }) => {
-  return (
-    <Modal animationType="none" visible={showModal} transparent={true}>
-      <ChatBot setShowModal={setShowModal} localVigem={localViagem} />
     </Modal>
   )
 }

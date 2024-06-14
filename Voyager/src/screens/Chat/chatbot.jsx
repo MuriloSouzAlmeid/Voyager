@@ -133,7 +133,7 @@ const PromptChat = ({ type, mensagem }) => {
 };
 
 //Elemento que de fato será a tela do ChatBot
-export const ChatBot = ({ setShowModal, localVigem }) => {
+export const ChatBot = ({ localVigem }) => {
   //States
   const [prompt, setPrompt] = useState("");
   const [historicoChat, setHistoricoChat] = useState([]);
@@ -185,10 +185,6 @@ Conte comigo para tornar sua viagem inesquecível! ✈️
     
   };
 
-  useEffect(() => {
-    console.log(historicoChat);
-  }, [historicoChat]);
-
   return (
     //Componente para adaptar a tela à altura do teclado
     <KeyboardAwareScrollView
@@ -206,7 +202,7 @@ Conte comigo para tornar sua viagem inesquecível! ✈️
           {/* Header com as logos */}
           <HeaderChat>
             {/* Botão voltar */}
-            <BotaoVoltar onPress={() => setShowModal(false)} />
+            <BotaoVoltar onPress={() => alert("Voltando")} />
             <LogoVoyager
               source={{
                 uri: "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/logoVoyager.png",

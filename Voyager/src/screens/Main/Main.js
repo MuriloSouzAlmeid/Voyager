@@ -17,13 +17,14 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { DecodeToken } from "../../utils/Auth";
 import { UserContext } from "../../contexts/MyContext";
 import { ChatBot } from "../Chat/chatbot";
+import { InfoLocal } from "../InfoLocal/InfoLocal";
 
 export const Main = ({ route }) => {
   const BottomTab = createBottomTabNavigator();
 
   return (
     <BottomTab.Navigator
-    
+
       screenOptions={({ route }) => ({
         initialRouteName: "ChatBot",
         headerShown: false,
@@ -104,6 +105,18 @@ export const Main = ({ route }) => {
       <BottomTab.Screen
         name="CriarPost"
         component={CriarPost}
+        options={{ tabBarButton: () => null }}
+      />
+
+      <BottomTab.Screen
+        name="InfoLocal"
+        component={InfoLocal}
+        options={{ tabBarButton: () => null }}
+      />
+
+      <BottomTab.Screen
+        name="ChatBot"
+        component={ChatBot}
         options={{ tabBarButton: () => null }}
       />
     </BottomTab.Navigator>

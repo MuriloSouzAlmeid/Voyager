@@ -3,8 +3,6 @@ import { InputCadastarViagem } from "../../components/Comps/style";
 import { Container } from "../../components/container/style";
 
 export const ContainerScreenChat = styled(Container)`
-    height: auto;
-    margin-bottom: 60px;
 `
 
 export const ContainerChat = styled.View`
