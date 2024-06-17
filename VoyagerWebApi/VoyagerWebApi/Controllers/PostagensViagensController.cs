@@ -48,7 +48,8 @@ namespace VoyagerWebApi.Controllers
                 {
                     Titulo = post.Titulo,
                     Descricao = post.Descricao,
-                    IdViagem = post.IdViagem
+                    IdViagem = post.IdViagem,
+                    DataPostagem = post.DataPostagem
                 };
 
                 _postagensViagens.Cadastrar(postagensViagens);
