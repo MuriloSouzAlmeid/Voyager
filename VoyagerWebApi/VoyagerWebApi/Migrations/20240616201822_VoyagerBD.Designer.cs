@@ -12,8 +12,8 @@ using VoyagerWebApi.Contexts;
 namespace VoyagerWebApi.Migrations
 {
     [DbContext(typeof(VoyagerContext))]
-    [Migration("20240608180642_VouyagerBD")]
-    partial class VouyagerBD
+    [Migration("20240616201822_VoyagerBD")]
+    partial class VoyagerBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("DataAvaliacao")
+                        .HasColumnType("DATETIME");
+
                     b.Property<Guid>("IdPostagemViagem")
                         .HasColumnType("uniqueidentifier");
 
@@ -85,6 +88,9 @@ namespace VoyagerWebApi.Migrations
 
                     b.Property<string>("ComentarioTexto")
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DataComentario")
+                        .HasColumnType("DATETIME");
 
                     b.Property<Guid>("IdPostagemViagem")
                         .HasColumnType("uniqueidentifier");
@@ -184,6 +190,9 @@ namespace VoyagerWebApi.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataPostagem")
+                        .HasColumnType("DATETIME");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");

@@ -54,7 +54,7 @@ namespace VoyagerWebApi.Controllers
                     Nome = dadosUsuario.Nome,
                     Email = dadosUsuario.Email,
                     Senha = Criptografia.GerarHash(dadosUsuario.Senha!),
-                    Foto = "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/do-utilizador.png"
+                    Foto = "https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/user.png"
                 };
 
                 _usuariosRepository.Cadastrar(novoUsuario);

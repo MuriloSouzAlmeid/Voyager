@@ -20,6 +20,9 @@ namespace VoyagerWebApi.Domains
         [Column(TypeName ="VARCHAR(255)")]
         public string? Titulo { get; set; }
 
+        [Column(TypeName = "DATETIME")]
+        public DateTime? DataPostagem { get; set; }
+
         public List<Avaliacoes>? Avaliacoes { get; set; }
 
         public List<Comentarios>? Comentarios {  get; set; }

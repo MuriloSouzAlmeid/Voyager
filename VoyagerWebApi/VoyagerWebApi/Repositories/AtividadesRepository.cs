@@ -65,7 +65,7 @@ namespace VoyagerWebApi.Repositories
 
         public List<Atividade> ListarPorViagem(Guid idViagem)
         {
-            List<Atividade> listaDeAtividades = _context.Atividades.Where(a => a.IdViagem == idViagem).ToList();
+            List<Atividade> listaDeAtividades = _context.Atividades.Where(a => a.IdViagem == idViagem).OrderBy(a => a.DataAtividade).ToList();
 
             return listaDeAtividades;
         }

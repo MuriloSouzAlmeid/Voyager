@@ -23,6 +23,9 @@ namespace VoyagerWebApi.Domains
         [Column(TypeName = "INT")]
         public int? StatusAvaliacao { get; set; }
 
+        [Column(TypeName = "DATETIME")]
+        public DateTime? DataAvaliacao { get; set; }
+
 
     }
 }

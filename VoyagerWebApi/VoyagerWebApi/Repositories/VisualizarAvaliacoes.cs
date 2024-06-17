@@ -13,23 +13,16 @@ namespace VoyagerWebApi.Repositories
             ctx = new VoyagerContext();
         }
 
-        public void Atualizar(Guid IdUsuario, Guid IdPostagem)
+        public Avaliacoes BuscarPorId(Guid IdUsuario, Guid IdPostagem)
         {
-            Avaliacoes avaliacoes = ctx.Avaliacoes.FirstOrDefault(a => a.IdUsuario == IdUsuario && a.IdPostagemViagem == IdPostagem)!;
+            Avaliacoes avaliacaoBuscada = ctx.Avaliacoes.FirstOrDefault(a => a.IdUsuario == IdUsuario && a.IdPostagemViagem == IdPostagem)!;
 
-            if (avaliacoes != null)
+            if(avaliacaoBuscada == null)
             {
-                if (avaliacoes.StatusAvaliacao == 1)
-                {
-                    avaliacoes.StatusAvaliacao = 0;
-                }
-                else
-                {
-                    avaliacoes.StatusAvaliacao = 1;
-                }
-                ctx.Avaliacoes.Update(avaliacoes);
-                ctx.SaveChanges();
+                return null;
             }
+
+            return avaliacaoBuscada;
         }
 
         public Avaliacoes BuscarPorPostUsuario(Guid IdUsuario, Guid IdPostagem)
@@ -50,6 +43,16 @@ namespace VoyagerWebApi.Repositories
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public void Deletar(Avaliacoes avaliacao)
+        {
+            if(avaliacao != null)
+            {
+                ctx.Avaliacoes.Remove(avaliacao);
+
+                ctx.SaveChanges();
             }
         }
 

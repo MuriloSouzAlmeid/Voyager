@@ -43,11 +43,6 @@ export const ContainerModalRotina = styled.View`
   border-radius: 20px;
 `
 
-export const ContainerModalCompartilhar = styled(ContainerModalRotina)`
-  padding: 37px 37px 47px;
-  height: auto;
-`
-
 export const LabelModalRotina = styled.Text`
   font-family: LouisGeorgeCafe-Bold;
   font-size: 20px;
@@ -77,15 +72,6 @@ export const ContainerComment = styled.View`
 export const TitleComment = styled(TitleDefault)`
   text-transform: capitalize;
   margin: 20px 0;
-`
-
-export const TitleCompartilhar = styled(TitleComment)`
-  font-family: MoonGet;
-  text-transform: uppercase;
-  text-align: center;
-  font-size: 24px;
-  margin: 0 0 23px;
-  line-height: 35px;
 `
 
 export const ContainerListComment = styled.View.attrs({

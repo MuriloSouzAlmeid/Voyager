@@ -56,6 +56,9 @@ namespace VoyagerWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("DataAvaliacao")
+                        .HasColumnType("DATETIME");
+
                     b.Property<Guid>("IdPostagemViagem")
                         .HasColumnType("uniqueidentifier");
 
@@ -82,6 +85,9 @@ namespace VoyagerWebApi.Migrations
 
                     b.Property<string>("ComentarioTexto")
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DataComentario")
+                        .HasColumnType("DATETIME");
 
                     b.Property<Guid>("IdPostagemViagem")
                         .HasColumnType("uniqueidentifier");
@@ -181,6 +187,9 @@ namespace VoyagerWebApi.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataPostagem")
+                        .HasColumnType("DATETIME");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");

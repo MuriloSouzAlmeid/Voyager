@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VoyagerWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class VouyagerBD : Migration
+    public partial class VoyagerBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -158,7 +158,8 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    Titulo = table.Column<string>(type: "VARCHAR(255)", nullable: true)
+                    Titulo = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    DataPostagem = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,7 +179,8 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdPostagemViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StatusAvaliacao = table.Column<int>(type: "INT", nullable: true)
+                    StatusAvaliacao = table.Column<int>(type: "INT", nullable: true),
+                    DataAvaliacao = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,7 +206,8 @@ namespace VoyagerWebApi.Migrations
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdPostagemViagem = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ComentarioTexto = table.Column<string>(type: "TEXT", nullable: true)
+                    ComentarioTexto = table.Column<string>(type: "TEXT", nullable: true),
+                    DataComentario = table.Column<DateTime>(type: "DATETIME", nullable: true)
                 },
                 constraints: table =>
                 {

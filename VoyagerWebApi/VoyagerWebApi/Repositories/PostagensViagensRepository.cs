@@ -52,7 +52,12 @@ namespace VoyagerWebApi.Repositories
 
         public List<PostagensViagens> ListarPorPostCurtidos(Guid idUsuario)
         {
-            List<PostagensViagens> listaDePostagensTotal = ctx.PostagensViagens.Include(p => p.Avaliacoes).Include(p => p.Viagem).ToList();
+            List<PostagensViagens> listaDePostagensTotal = ctx.PostagensViagens
+                .Include(p => p.Avaliacoes)
+                .Include(p => p.Viagem)
+                .Include(p => p.Viagem.Usuario)
+                .Include(p => p.GaleriaImagens)
+                .OrderByDescending(p => p.DataPostagem).ToList();
 
             List<PostagensViagens> listaDePostagensCurtidas = new List<PostagensViagens>();
 
@@ -103,15 +108,19 @@ namespace VoyagerWebApi.Repositories
         {
             List<PostagensViagens> listaDePosts = ctx.PostagensViagens
                 .Include(p => p.Viagem)
-                .Where(p => p.Viagem.IdUsuario == idUsuario).
-                ToList();
+                .Include(p => p.Viagem)
+                .Include(p => p.Viagem.Usuario)
+                .Include(p => p.GaleriaImagens)
+                .Where(p => p.Viagem.IdUsuario == idUsuario)
+                .OrderByDescending(p => p.DataPostagem)
+                .ToList();
 
             return listaDePosts;
         }
 
         public List<PostagensViagens> ListarTodasPostagens()
         {
-            List<PostagensViagens> listaDePostagens = ctx.PostagensViagens.Include(p => p.Comentarios).Include(p => p.Viagem).Include(p => p.Viagem.Usuario).OrderBy(p => p.Viagem.DataFinal).ToList();
+            List<PostagensViagens> listaDePostagens = ctx.PostagensViagens.Include(p => p.Comentarios).Include(p => p.Viagem).Include(p => p.Viagem.Usuario).Include(p => p.GaleriaImagens).OrderByDescending(p => p.DataPostagem).ToList();
 
             return listaDePostagens;
         }

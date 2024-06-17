@@ -38,7 +38,7 @@ namespace VoyagerWebApi.Controllers
         }
 
         [HttpPut("CurtirDescurtirPostagem")]
-        public IActionResult Atualizar(Guid IdUsuario, Guid IdPostagem)
+        public IActionResult Atualizar(Guid IdUsuario, Guid IdPostagem, DateTime dataAvaliacao)
         {
             try
             {
@@ -60,7 +60,8 @@ namespace VoyagerWebApi.Controllers
                         {
                             IdPostagemViagem = IdPostagem,
                             IdUsuario = IdUsuario,
-                            StatusAvaliacao = 1
+                            StatusAvaliacao = 1,
+                            DataAvaliacao = dataAvaliacao
                         };
 
                         _VisualizarAvaliacoes.Cadastrar(novaAvaliacao);
@@ -70,7 +71,7 @@ namespace VoyagerWebApi.Controllers
                 }
                 else
                 {
-                    _VisualizarAvaliacoes.Atualizar(IdUsuario, IdPostagem);
+                    _VisualizarAvaliacoes.Deletar(avaliacaoBuscada);
 
                     return Ok("avaliacao atualizada");
                 }
