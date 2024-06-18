@@ -10,10 +10,12 @@ namespace VoyagerWebApi.Controllers
     public class PlaceSearchController : ControllerBase
     {
         private readonly IPlaceSearchService _placeSearchService;
+        private readonly IImageSearchService _imageSearchService;
 
         public PlaceSearchController()
         {
             _placeSearchService = new PlaceSearchService();
+            _imageSearchService = new ImageSearchService();
         }
 
         [HttpPost]
@@ -24,6 +26,21 @@ namespace VoyagerWebApi.Controllers
                 List<PlaceSettings> listaDePontosTuristicos = await _placeSearchService.BuscarPontosTuristicos(local);
 
                 return Ok(listaDePontosTuristicos);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpPost("BuscarImagensLocal")]
+        public async Task<IActionResult> GetImagesPlace(string local)
+        {
+            try
+            {
+                List<string> listaDeImagens = await _imageSearchService.BuscarImagensLocal(local);
+
+                return Ok(listaDeImagens);
             }
             catch (Exception erro)
             {

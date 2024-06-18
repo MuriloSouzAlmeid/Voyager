@@ -13,10 +13,12 @@ namespace VoyagerWebApi.Controllers
     public class PostagensViagensController : ControllerBase
     {
         private readonly IPostagensViagensRepository _postagensViagens;
+        private readonly IVisualizarAvaliacoes _avaliacoes;
 
         public PostagensViagensController()
         {
             _postagensViagens = new PostagensViagensRepository();
+            _avaliacoes = new VisualizarAvaliacoes();
         }
 
         [HttpGet("{idPostagensViagens}")]
@@ -101,7 +103,7 @@ namespace VoyagerWebApi.Controllers
         {
             try
             {
-                List<PostagensViagens> listaDeCurtidas = _postagensViagens.ListarPorPostCurtidos(idUsuario);
+                List<Avaliacoes> listaDeCurtidas = _avaliacoes.BuscarPorUsuario(idUsuario);
 
                 return Ok(listaDeCurtidas);
             }

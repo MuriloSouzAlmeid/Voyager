@@ -1,4 +1,5 @@
-﻿using VoyagerWebApi.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using VoyagerWebApi.Contexts;
 using VoyagerWebApi.Domains;
 using VoyagerWebApi.Interfaces;
 
@@ -30,6 +31,17 @@ namespace VoyagerWebApi.Repositories
             Avaliacoes avaliacaoBuscada = ctx.Avaliacoes.FirstOrDefault(a => a.IdUsuario == IdUsuario && a.IdPostagemViagem == IdPostagem)!;
 
             return avaliacaoBuscada;
+        }
+
+        public List<Avaliacoes> BuscarPorUsuario(Guid idUsuario)
+        {
+            List<Avaliacoes> avaliacoes = ctx.Avaliacoes.Include(a => a.PostagemViagem)
+                .Include(a => a.PostagemViagem.GaleriaImagens)
+                .Include(a => a.PostagemViagem.Viagem.Usuario)
+                .Where(a => a.IdUsuario == idUsuario)
+                .OrderByDescending(a => a.DataAvaliacao).ToList();
+
+            return avaliacoes;
         }
 
         public void Cadastrar(Avaliacoes novaAvaliacao)
