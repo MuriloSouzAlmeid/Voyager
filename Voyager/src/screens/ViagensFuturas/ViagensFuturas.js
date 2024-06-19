@@ -24,8 +24,8 @@ export const ViagensFuturas = ({ navigation }) => {
   const [viagensPendentes, setViagensPendentes] = useState(null)
   const { user } = useContext(UserContext)
 
-  const BuscarViagensFuturas = () => {
-    api.get(`/Viagens/ListarViagensFuturas/${user.jti}`)
+  const BuscarViagensFuturas = async () => {
+    await api.get(`/Viagens/ListarViagensFuturas/${user.jti}`)
       .then(response => {
         setViagensPendentes(response.data);
         // console.log(viagensConcluidas.dataFinal);
@@ -41,7 +41,7 @@ export const ViagensFuturas = ({ navigation }) => {
 
   return (
     <Container>
-      <Back navigation={navigation} screen={'Viagens'}/>
+      <Back navigation={navigation} screen={'Viagens'} />
 
       <MinhasViagens />
 
@@ -55,28 +55,30 @@ export const ViagensFuturas = ({ navigation }) => {
       </TitleViagensFuturas>
 
       <ScrollView style={{ width: "100%" }}>
-      {viagensPendentes !== null ?
+        {viagensPendentes != null && viagensPendentes.length > 0  ?
           <ContainerPostIts>
-            {viagensPendentes.map((viagem) => 
-                <PostIts
-                  key={viagem.id}
-                  onPress={() =>
-                    navigation.navigate("ViagemAtual", { idViagem: viagem.id })
-                  }
-                >
-                  <PostItImage
-                    source={{
-                      uri: "https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/post-it-2.png?raw=true"
-                    }}
-                  />
+            {viagensPendentes.map((viagem) =>
+              <PostIts
+                key={viagem.id}
+                onPress={() =>
+                  navigation.navigate("ViagemAtual", { idViagem: viagem.id })
+                }
+              >
+                <PostItImage
+                  source={{
+                    uri: "https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/post-it.png?raw=true"
+                  }}
+                />
 
-                  <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino>
-                  <TextData>{moment(viagem.dataInicial).format("DD/MM")} - {moment(viagem.dataFinal).format("DD/MM")}</TextData>
-                </PostIts>
-              
+                <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino>
+                <TextData>{moment(viagem.dataInicial).format("DD/MM")} - {moment(viagem.dataFinal).format("DD/MM")}</TextData>
+              </PostIts>
+
             )}
           </ContainerPostIts>
-          : null}
+          : <TitleViagensFuturas style={{ width: `90%`, alignSelf: `center`, textAlign: `center` }}>
+            Ainda não há viagens programadas
+          </TitleViagensFuturas>}
       </ScrollView>
     </Container>
   );

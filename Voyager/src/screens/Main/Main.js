@@ -16,19 +16,24 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createContext, useEffect, useState, useContext } from "react";
 import { DecodeToken } from "../../utils/Auth";
 import { UserContext } from "../../contexts/MyContext";
-import { ChatBot } from "../Chat/chatbot";
 import { InfoLocal } from "../InfoLocal/InfoLocal";
+import { ChatBot } from "../Chat/chatbot";
 
 export const Main = ({ route }) => {
   const BottomTab = createBottomTabNavigator();
 
+  const [telaRedirecionada, setTelaRedirecionada] = useState(route.params.screen)
+
+  useEffect(() => {
+    setTelaRedirecionada(route.params.screen)
+  })
+
   return (
     <BottomTab.Navigator
-
       screenOptions={({ route }) => ({
-        initialRouteName: "ChatBot",
+        initialRouteName: telaRedirecionada,
         headerShown: false,
-        tabBarStyle: { height: 60, borderTopWidth: 2, borderColor: "#000", zIndex: 100000000 },
+        tabBarStyle: { height: 60, borderTopWidth: 2, borderColor: "#000" },
         tabBarActiveBackgroundColor: "transparent",
         tabBarShowLabel: false,
         tabBarIcon: ({ focused }) => {
@@ -37,7 +42,7 @@ export const Main = ({ route }) => {
               <BoxIcon
                 tabBarActive={focused ? `rgba(133, 48, 198, .2)` : `#fff`}
               >
-                <AntDesign name="home" size={30} color="#8531C6" />
+                <MaterialCommunityIcons name="home" size={30} color="#8531C6" />
               </BoxIcon>
             );
           }
@@ -47,7 +52,7 @@ export const Main = ({ route }) => {
               <BoxIcon
                 tabBarActive={focused ? `rgba(133, 48, 198, .2)` : `#fff`}
               >
-                <AntDesign name="user" size={30} color="#8531C6" />
+                <MaterialCommunityIcons name="account" size={30} color="#8531C6" />
               </BoxIcon>
             );
           }
@@ -109,6 +114,7 @@ export const Main = ({ route }) => {
       />
 
       <BottomTab.Screen
+
         name="InfoLocal"
         component={InfoLocal}
         options={{ tabBarButton: () => null }}

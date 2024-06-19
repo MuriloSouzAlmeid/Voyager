@@ -20,12 +20,12 @@ import { UserContext } from "../../contexts/MyContext";
 import moment from "moment";
 
 export const HistoricoViagens = ({ navigation }) => {
-  
+
   const [viagensConcluidas, setViagensConcluidas] = useState(null)
   const { user } = useContext(UserContext)
 
-  const BuscarHistoricoDeViagens = () => {
-    api.get(`/Viagens/ListarViagensPassadas/${user.jti}`)
+  const BuscarHistoricoDeViagens = async () => {
+    await api.get(`/Viagens/ListarViagensPassadas/${user.jti}`)
       .then(response => {
         setViagensConcluidas(response.data);
         // console.log(viagensConcluidas.dataFinal);
@@ -51,28 +51,33 @@ export const HistoricoViagens = ({ navigation }) => {
       </TitleViagensFuturas>
 
       <ScrollView style={{ width: "100%" }}>
-        {viagensConcluidas !== null ?
+        {viagensConcluidas !== null && viagensConcluidas.length > 0 ?
           <ContainerPostIts>
-            {viagensConcluidas.map((viagem) => 
-                <PostIts
-                  key={viagem.id}
-                  onPress={() =>
-                    navigation.navigate("ViagemAtual", { type: "historico", idViagem: viagem.id })
-                  }
-                >
-                  <PostItImage
-                    source={{
-                      uri: "https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/post-it-2.png?raw=true"
-                    }}
-                  />
+            {viagensConcluidas.map((viagem) =>
+              <PostIts
+                key={viagem.id}
+                onPress={() =>
+                  navigation.navigate("ViagemAtual", { type: "historico", idViagem: viagem.id })
+                }
+              >
+                <PostItImage
+                  source={{
+                    uri: "https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/post-it-2.png?raw=true"
+                  }}
+                />
 
-                  <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino>
-                  <TextData>{moment(viagem.dataInicial).format("DD/MM")} - {moment(viagem.dataFinal).format("DD/MM")}</TextData>
-                </PostIts>
-              
+                <TextDestino>{viagem.endereco.cidadeDestino}</TextDestino>
+                <TextData>{moment(viagem.dataInicial).format("DD/MM")} - {moment(viagem.dataFinal).format("DD/MM")}</TextData>
+              </PostIts>
+
             )}
           </ContainerPostIts>
-          : null}
+          : <TitleViagensFuturas style={{ width: `90%`, alignSelf: `center`, textAlign: `center` }}>
+            Você ainda não terminou nenhuma viagem!!!
+          </TitleViagensFuturas>
+        }
+
+
 
       </ScrollView>
     </Container>

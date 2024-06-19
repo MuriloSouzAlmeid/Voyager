@@ -33,17 +33,29 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/MyContext";
 import { useFocusEffect } from "@react-navigation/native";
 import moment from "moment";
+import { CompartilharViagemModal, ModalInformativo, ViagemIniciadaModal } from "../../components/Modal";
+import {MostrarModal} from "../../utils/MostrarModal"
 
 export const ViagemAtual = ({ navigation, route }) => {
   const [dadosViagem, setDadosViagem] = useState(null)
   const [listaAtividades, setListaAtividades] = useState(null)
   const {user} = useContext(UserContext);
 
-  const BuscarDadosViagem = () => {
-    api.get(`/Viagens/${route.params.idViagem}`)
+  const [postagemViagem, setPostagemViagem] = useState(null)
+  const [viagemPossuiPostagem, setViagemPossuiPostagem] = useState(true)
+
+  const [mensagemModal, setMensagemModal] = useState("")
+  const [showModalMensagem, setShowModalMensagem] = useState(false)
+
+  const [showModalPostagem, setShowModalPostagem] = useState(false)
+  const [showModalIniciada, setShowModalIniciada] = useState(false)
+
+  const BuscarDadosViagem = async () => {
+    await api.get(`/Viagens/${route.params.idViagem}`)
       .then(response => {
         setDadosViagem(response.data)
         BuscarAtividadesViagem(route.params.idViagem)
+        BuscarPostagemViagemAtual()
       })
       .catch(erro => {
         alert(erro)
@@ -51,8 +63,26 @@ export const ViagemAtual = ({ navigation, route }) => {
       })   
   }
 
-  const BuscarAtividadesViagem = (idViagem) => {
-    api.get(`/Atividades/${idViagem}`)
+  const BuscarPostagemViagemAtual = async () => {
+    console.log("Chegou");
+    await api.get(`/PostagensViagens/BuscarPorViagem/${route.params.idViagem}`).then(postagem => { 
+      setPostagemViagem(postagem.data)
+      console.log(postagem.data);
+      console.log();
+      setViagemPossuiPostagem(true)
+      console.log("fez a requisição");
+    })
+    .catch(erro => {
+      if(erro.response.status === 404){
+        setViagemPossuiPostagem(false)
+        console.log("caiu aqui");
+        console.log(route.params.idViagem);
+      }
+    })
+  }
+
+  const BuscarAtividadesViagem = async (idViagem) => {
+    await api.get(`/Atividades/${idViagem}`)
       .then(retornoApi => {
         setListaAtividades(retornoApi.data)
       })
@@ -62,43 +92,44 @@ export const ViagemAtual = ({ navigation, route }) => {
       })
   }
 
-  const MarcarStatusAtividade = (idAtividade) => {
-    api.put(`/Atividades/AtualizarStatusAtividade?idAtividade=${idAtividade}`)
+  const MarcarStatusAtividade = async (idAtividade) => {
+    await api.put(`/Atividades/AtualizarStatusAtividade?idAtividade=${idAtividade}`)
     .then(() => {
       BuscarAtividadesViagem(route.params.idViagem)
     }).catch(erro => {
-      alert(erro)
-      console.log(erro);
+      MostrarModal("Ocorreu um erro ao tentar iniciar a viagem. Tente novamente mais tarde", setShowModalMensagem, setMensagemModal)
     })
   }
 
-  const FinalizarViagem = (idViagem) => {
-    api.put(`/StatusViagens/FinalizarViagem?idViagem=${idViagem}`)
+  const FinalizarViagem = async (idViagem) => {
+    await api.put(`/StatusViagens/FinalizarViagem?idViagem=${idViagem}`)
     .then(() => {
-      alert("Viagem Finalizada")
-      navigation.replace("main")
+      setShowModalPostagem(true)
     })
     .catch(erro => {
-      alert(erro)
-      console.log(erro);
+      MostrarModal("Ocorreu um erro ao tentar finalizar a viagem. Tente novamente mais tarde", setShowModalMensagem, setMensagemModal)
     })
   }
 
-  const IniciarViagem = (idViagem) => {
-    api.put(`/StatusViagens/IniciarViagem?idViagem=${idViagem}&idUsuario=${user.jti}`)
+  const IniciarViagem = async (idViagem) => {
+    await api.put(`/StatusViagens/IniciarViagem?idViagem=${idViagem}&idUsuario=${user.jti}`)
     .then(() => {
-      alert("Viagem Iniciada")
-      navigation.replace("main")
+      setShowModalIniciada(true)
     })
     .catch(erro => {
-      alert(erro)
-      console.log(erro);
+      if(erro.response.status === 400){
+        MostrarModal("Espere um minuto! Não é possível iniciar duas viagens ao mesmo tempo. Conclua sua viagem em andamento para se gerenciar uma nova.", setShowModalMensagem, setMensagemModal)
+      }
     })
   } 
 
   useEffect(() => {
     BuscarDadosViagem()
   }, [route.params])
+
+  useFocusEffect(useCallback(() => {
+    BuscarDadosViagem()
+  }, []))
 
   return dadosViagem != null ? (
     <Container>
@@ -134,7 +165,7 @@ export const ViagemAtual = ({ navigation, route }) => {
                 data={listaAtividades}
                 renderItem={({ item }) => (
                   <ContentCheck>
-                    <Check onPress={() => MarcarStatusAtividade(item.id)}>
+                    <Check onPress={(dadosViagem.statusViagem.status === "Pendente") ? null : () => MarcarStatusAtividade(item.id)}>
                       {item.concluida === false ? null : (
                         <MaterialCommunityIcons
                           name="check-bold"
@@ -168,11 +199,11 @@ export const ViagemAtual = ({ navigation, route }) => {
           <ShadowDefault
             render={
               <ButtonViagem
-                onPress={() => navigation.navigate(`CriarPost`)}
+                onPress={viagemPossuiPostagem ? () => navigation.replace("ViewPost", { post: postagemViagem, screenBack: "Viagens" }) : () => navigation.navigate(`CriarPost`, {idViagem: dadosViagem.id})}
                 bgColor={"#8531C6"}
               >
                 <TextButtonViagem style={{ color: "#fff" }}>
-                  Adicionar post
+                  {viagemPossuiPostagem ? "Visualizar" : "Adicionar"} postagem
                 </TextButtonViagem>
               </ButtonViagem>
             }
@@ -189,6 +220,23 @@ export const ViagemAtual = ({ navigation, route }) => {
           />
         )
       ) : null}
+      <ModalInformativo
+        mensagem={mensagemModal}
+        showModal={showModalMensagem}
+        setShowModal={setShowModalMensagem}
+      />
+
+      <CompartilharViagemModal
+        navigation={navigation}
+        visible={showModalPostagem}
+        setVisible={setShowModalPostagem}
+        idViagem={dadosViagem.id}
+      />
+
+      <ViagemIniciadaModal
+        navigation={navigation}
+        visible={showModalIniciada}
+      />
     </Container>
   ) : <></>;
 };

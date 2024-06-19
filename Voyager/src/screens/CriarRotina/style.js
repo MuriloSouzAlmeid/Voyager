@@ -5,7 +5,7 @@ import { TitleDefault } from "../../components/Text/style";
 
 // Modal de rotina
 export const TitleRotina = styled.Text`
-  width: 202px;
+  width: 250px;
   font-family: "MoonGet";
   font-size: 24px;
   text-transform: uppercase;
@@ -70,6 +70,7 @@ export const ContainerComment = styled.View`
 `
 
 export const TitleComment = styled(TitleDefault)`
+  font-family: 'LouisGeorgeCafe-Bold';
   text-transform: capitalize;
   margin: 20px 0;
 `

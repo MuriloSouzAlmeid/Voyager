@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View } from "react-native";
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Main } from "./src/screens/Main/Main";
@@ -18,8 +18,10 @@ import { VerificarCodigo } from "./src/screens/VerificarCodigo/VerificarCodigo";
 import { RedefinirSenha } from "./src/screens/RedefinirSenha/RedefinirSenha";
 import { Navegacao } from "./src/screens/Navegacao/Navegacao";
 import { MyProvider } from "./src/contexts/MyContext";
-import { ChatBot } from "./src/screens/Chat/chatbot";
-import { InfoLocal } from "./src/screens/InfoLocal/InfoLocal";
+
+import * as MediaLibrary from "expo-media-library"
+import * as ImagePicker from "expo-image-picker"
+import Splash from "./src/components/Splash";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -31,64 +33,73 @@ export default function App() {
     MoonGet: require("./src/assets/fonts/moon_get-Heavy.ttf"),
   });
 
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
+  async function requestPermissions() {
+    await MediaLibrary.requestPermissionsAsync();
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
+  }
+
+  // useEffect(() => {
+  //   requestPermissions()
+  // }, [])
+
   return (
     <MyProvider >
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+          />
+
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false }}
           />
 
           <Stack.Screen
             name="main"
             component={Main}
-            options={{ headerShown: false }}
           />
 
           <Stack.Screen
             name="ViewPost"
             component={ViewPost}
-            options={{ headerShown: false }}
           />
 
           <Stack.Screen
             name="EditPerfil"
             component={EditPerfil}
-            options={{ headerShown: false }}
           />
 
           {/* Tela de Cadastro */}
           <Stack.Screen
             name="Cadastro"
             component={Cadastro}
-            options={{ headerShown: false }}
           />
 
           {/* Tela de Recuperar Senha */}
           <Stack.Screen
             name="RecuperarSenha"
             component={RecuperarSenha}
-            options={{ headerShown: false }}
           />
 
           {/* Tela de Verificar Codigo */}
           <Stack.Screen
             name="VerificarCodigo"
             component={VerificarCodigo}
-            options={{ headerShown: false }}
           />
 
           {/* Tela de Redefinir Senha */}
           <Stack.Screen
             name="RedefinirSenha"
             component={RedefinirSenha}
-            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

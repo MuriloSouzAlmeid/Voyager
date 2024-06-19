@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ButtonGuia, ContainerGuia, TextGuia } from "./style";
+import { ButtonGuia, ContainerGuia, ContainerGuiaItem, TextGuia, TitleGuiaItem } from "./style";
 import { Shadow } from "react-native-shadow-2";
 import { Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -58,6 +58,8 @@ export const GuiaPerfil = ({ setGuia }) => {
   const [buttonClicked, setButtonClicked] = useState(true);
   return (
     <ContainerGuia>
+      <ContainerGuiaItem>
+      <TitleGuiaItem>Meus posts</TitleGuiaItem>
       <Shadow startColor="#000" endColor="#000" distance={0} offset={[5, 5]}>
         <ButtonGuia
           style={buttonClicked && { backgroundColor: `#8531C6` }}
@@ -67,13 +69,16 @@ export const GuiaPerfil = ({ setGuia }) => {
           }}
         >
           {buttonClicked ? (
-            <MaterialCommunityIcons name="image-area" size={30} color="#fff" />
+            <MaterialCommunityIcons name="image-plus" size={30} color="#fff" />
           ) : (
-            <MaterialCommunityIcons name="image-area" size={30} color="#000" />
+            <MaterialCommunityIcons name="image-plus" size={30} color="#000" />
           )}
         </ButtonGuia>
       </Shadow>
+      </ContainerGuiaItem>
 
+      <ContainerGuiaItem>
+        <TitleGuiaItem>Favoritos</TitleGuiaItem>
       <Shadow startColor="#000" endColor="#000" distance={0} offset={[5, 5]}>
         <ButtonGuia
           style={!buttonClicked && { backgroundColor: `#8531C6` }}
@@ -89,6 +94,7 @@ export const GuiaPerfil = ({ setGuia }) => {
           )}
         </ButtonGuia>
       </Shadow>
+      </ContainerGuiaItem>
     </ContainerGuia>
   );
 };

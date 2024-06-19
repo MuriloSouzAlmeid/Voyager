@@ -33,12 +33,20 @@ import {
     InputCodeContainer
 } from "../../components/container/style";
 import { useNavigation } from '@react-navigation/native';
+import { Text } from 'react-native';
 
-export const VerificarCodigo = ({ }) => {
-    const [codes, setCodes] = useState(["", "", "", ""]); // Estado para armazenar os códigos de entrada
-    const inputRefs = useRef([React.createRef(), React.createRef(), React.createRef(), React.createRef()]); // Referência para as entradas de código
+import api from "../../service/Service";
+import { MostrarModal } from '../../utils/MostrarModal';
+import { ModalInformativo } from '../../components/Modal';
+import { LinkVoltar } from '../InfoLocal/style';
 
-    const navigation = useNavigation();
+export const VerificarCodigo = ({ navigation, route }) => {
+    const [codes, setCodes] = useState(["", "", "", ""]);
+    const inputRefs = useRef([React.createRef(), React.createRef(), React.createRef(), React.createRef()]);
+    const [loading, setLoading] = useState(false);
+    const [resending, setResending] = useState(false);
+    const [mensagemModal, setMensagemModal] = useState("")
+    const [showModalMensagem, setShowModalMensagem] = useState(false)
 
     const handleInputChange = (value, index) => {
         if (/^[0-9]?$/.test(value)) { // Verifica se o valor é um número de 0 a 9
@@ -58,6 +66,59 @@ export const VerificarCodigo = ({ }) => {
                 inputRefs.current[index - 1].current.focus(); // Move o foco para o campo de entrada anterior
             }
         }
+    };
+
+    // Função para validar o código
+    const validarCodigo = async () => {
+        setLoading(true); // Define o estado de carregamento como verdadeiro
+        try {
+            const codigo = codes.join(''); // Junta os 4 dígitos em uma única string
+            console.log("Enviando código:", codigo);
+            console.log("Email de recuperação:", route.params.emailRecuperacao);
+
+            if (!route.params.emailRecuperacao) { // Verifica se o email de recuperação está presente
+                throw new Error("O email de recuperação não está presente.");
+            }
+
+            // Faz uma solicitação POST para validar o código
+            const response = await api.post(`/RecuperarSenha/ValidarCodigoRecuperacao?email=${route.params.emailRecuperacao}&codigo=${codigo}`);
+
+            console.log("Resposta da API:", response.data);
+
+            if (response.data) {
+                // Navega para a tela de redefinição de senha se a resposta for positiva
+                navigation.replace("RedefinirSenha", {
+                    emailRecuperacao: route.params.emailRecuperacao,
+                });
+            } else {
+                MostrarModal("Erro. O código digitado é inválido! Verifique seu email e tente novamente", setShowModalMensagem, setMensagemModal ); // Exibe um alerta se o código for inválido
+            }
+        } catch (error) {
+            MostrarModal("Erro. O código digitado é inválido! Verifique seu email e tente novamente", setShowModalMensagem, setMensagemModal ); // Exibe um alerta em caso de erro
+        }
+        setLoading(false); // Define o estado de carregamento como falso
+    };
+
+    // Função para reenviar o código
+    const reenviarCodigo = async () => {
+        setResending(true); // Define o estado de reenvio como verdadeiro
+        try {
+            console.log("Reenviando código para:", route.params.emailRecuperacao);
+
+            // Faz uma solicitação POST para reenviar o código
+            const response = await api.post(`/RecuperarSenha/EnviarEmail?email=${route.params.emailRecuperacao}`);
+            console.log("Resposta da API para reenviar código:", response.data);
+
+            if (response.data) {
+                MostrarModal("Sucesso. código reenviado com sucesso!", setShowModalMensagem, setMensagemModal) // Exibe um alerta em caso de sucesso
+            } else {
+                MostrarModal("Erro, falha ao reenviar o código. Por favor, tente novamente.", setShowModalMensagem, setMensagemModal); // Exibe um alerta em caso de falha
+            }
+        } catch (error) {
+            console.error("Erro ao reenviar o código:", error.response ? error.response.data : error.message);
+            MostrarModal("Erro ao reenviar o código!", setShowModalMensagem, setMensagemModal); // Exibe um alerta em caso de erro
+        }
+        setResending(false); // Define o estado de reenvio como falso
     };
 
     return (
@@ -88,24 +149,38 @@ export const VerificarCodigo = ({ }) => {
                             </InputBoxCode>
 
                             <ButtonBox>
-                                <Sombra style={{ left: 5, width: '25%' }} />
-                                <Button  onPress={() => navigation.navigate("RedefinirSenha")}>
+                                <Sombra style={{ left: 5, width: '50%' }} />
+                                <Button style={{ width: 175 }} onPress={loading ? null : () => validarCodigo()}>
                                     <ButtonTitle>
-                                        Entrar
+                                        <Text>{loading ? "Carregando..." : "Continuar"}</Text>
                                     </ButtonTitle>
                                 </Button>
                             </ButtonBox>
 
-                            <LinkMedium
-                                style={{ marginTop: 5, left: -120, color: '#8531C6' }}
+                            <LinkVoltar
+                                onPress={reenviarCodigo}
+                                style={{ marginTop: 5, color: '#8531C6' }}
                             >
-                                Reenviar Código
-                            </LinkMedium>
+                                <Text>{resending ? "Reenviando..." : "Reenviar Código"}</Text>
+                            </LinkVoltar>
+
+                            <LinkVoltar
+                                onPress={() => navigation.goBack()}
+                                style={{ marginTop: -10, color: '#8531C6' }}
+                            >
+                                <Text>cancelar</Text>
+                            </LinkVoltar>
 
                         </FormBox>
                     </CenteredContent>
                 </MainContent>
             </MainContentScroll>
+
+            <ModalInformativo
+                mensagem={mensagemModal}
+                setShowModal={setShowModalMensagem}
+                showModal={showModalMensagem}
+            />
         </Container>
     );
 };

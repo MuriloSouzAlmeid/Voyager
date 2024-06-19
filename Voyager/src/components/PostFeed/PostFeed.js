@@ -15,31 +15,59 @@ import {
   TitlePreviewFeed,
 } from "./style";
 import { Shadow } from "react-native-shadow-2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import api from "../../service/Service";
-import { ChatBotModal } from "../Modal";
+import moment from "moment";
 
-export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) => {
+export const PostFeed = ({
+  post,
+  user,
+  navigation,
+  setModalComment,
+  setPost,
+  screenBack,
+  setDep,
+  dep
+}) => {
   const [like, setLike] = useState(false);
-  
+  const [imagemCapa, setImagemCapa] = useState("")
 
-  async function GetComments(post) {
-    await api.get(`/Comentarios/${post.id}`)
-      .then((e) => {
-        setComments(e.data)
-        console.log(e.data)
+
+  async function PostCurtida(postId, userId) {
+    await api.put(`/VisualizarAvaliacoes/CurtirDescurtirPostagem?IdUsuario=${userId}&IdPostagem=${postId}&dataAvaliacao=${moment().format("YYYY-MM-DDTHH:mm:ss")}`)
+      .then(() => {
+        GetCurtida(postId, userId)
+        dep ? setDep(false) : setDep(true)
       })
       .catch((e) => {
         console.log(e)
       })
   }
 
+  async function GetCurtida(postId, userId) {
+    await api.get(`/VisualizarAvaliacoes/VerificarAvaliacao?idUsuario=${userId}&idPostagem=${postId}`)
+      .then((e) => {
+        setLike(e.data)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+
+  useEffect(() => {
+    GetCurtida(post.id, user.jti)
+    if(post.galeriaImagens.length !== 0){
+      setImagemCapa(post.galeriaImagens[0].media)
+    }
+  }, [like])
+
   return (
     <ContainerBoxs
-      onPress={onPress}
+      onPress={() => navigation.replace("ViewPost", { post: post, screenBack: screenBack })}
     >
       <BoxOne>
         <BoxTwo>
@@ -47,13 +75,17 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
             {/* Imagem da postagem */}
             <ThumbnailFeed
               source={{
-                uri: `https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/FotoViagemFeed.png?raw=true`,
+                uri: (imagemCapa === "") ? `https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/BackgroundPost_Defualt.jpg` : imagemCapa
               }}
             />
 
             {/* Botões de comentar e gostei */}
             <ContainerIcons>
-              <TouchableOpacity onPress={() => navigation.navigate("ChatBot")}>
+              <TouchableOpacity onPress={() => {
+                setPost(post)
+                console.log(post.id)
+                setModalComment(true)
+              }}>
                 <MaterialCommunityIcons
                   name="comment-text-outline"
                   size={24}
@@ -63,7 +95,7 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
 
               <TouchableOpacity
                 onPress={() => {
-                  !like ? setLike(true) : setLike(false);
+                  PostCurtida(post.id, user.jti)
                 }}
               >
                 {!like ? (
@@ -80,7 +112,11 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
                 <TitlePreviewFeed>{post.titulo}</TitlePreviewFeed>
 
                 <TextPreviewFeed>
-                  ...
+                  {
+                    post.descricao !== undefined
+                    && post.descricao !== null
+                    && post.descricao.substr(0, 50)
+                  }...
                 </TextPreviewFeed>
               </ContentPreviewFeed>
 
@@ -93,7 +129,7 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
               >
                 <ImageUserFeed
                   source={{
-                    uri: "https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/PedroFeed.png?raw=true",
+                    uri: post.viagem.usuario.foto,
                   }}
                 />
               </Shadow>
@@ -101,8 +137,6 @@ export const PostFeed = ({ post, navigation, onPress, setComments, setPost }) =>
           </BoxThree>
         </BoxTwo>
       </BoxOne>
-
-      
     </ContainerBoxs>
   );
 };

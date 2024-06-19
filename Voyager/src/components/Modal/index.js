@@ -1,10 +1,9 @@
-import { FlatList, Modal, Text, View } from "react-native";
+import { FlatList, Modal, View, Text } from "react-native";
 import {
   BackgroundModalRotina,
   ButtonModalRotina,
   ContainerComment,
   ContainerListComment,
-  ContainerModalCompartilhar,
   ContainerModalRotina,
   ContainerText,
   ContentComment,
@@ -14,10 +13,8 @@ import {
   LabelModalRotina,
   TextComment,
   TitleComment,
-  TitleCompartilhar,
   UserComment,
 } from "../../screens/CriarRotina/style";
-import { Shadow } from "react-native-shadow-2";
 import { TitleDefault } from "../Text/style";
 import {
   ButtonViagem,
@@ -32,29 +29,68 @@ import {
 } from "../Shadow";
 import api from "../../service/Service";
 import { useEffect, useState } from "react";
-import { ChatBot } from "../../screens/Chat/chatbot";
-import { ButtonModal, ButtonModalBox, TextModal } from "./style";
+import { ButtonModal, ButtonModalBox, ContainerCalendar, ContainerModalCompartilhar, TextModal, TitleCompartilhar } from "./style";
+import { CalendarMaximized } from "../Calendar/Calendar";
+import { mask } from "remask";
+import moment from "moment";
+import { Shadow } from "react-native-shadow-2";
+import { MostrarModal } from "../../utils/MostrarModal";
 
-export const ModalRotina = ({ visible, setVisible }) => {
+export const ModalRotina = ({
+  visible,
+  setVisible,
+  descricao,
+  setDescricao,
+  dataHora,
+  setDataHora,
+  tarefas,
+}) => {
   return (
     <Modal animationType="fade" transparent={true} visible={visible}>
       <BackgroundModalRotina>
         <ContainerModalRotina>
           <View style={{ margin: 20 }}>
-            <LabelModalRotina>Adicionar tarefa</LabelModalRotina>
+            <LabelModalRotina>Descrição</LabelModalRotina>
 
-            <ShadowDefault render={<InputRotina placeholder={``} />} />
+            <ShadowDefault
+              render={
+                <InputRotina
+                  placeholder={``}
+                  multiline={true}
+                  onChangeText={(txt) => setDescricao(txt)}
+                />
+              }
+            />
           </View>
 
           <View style={{ margin: 20 }}>
             <LabelModalRotina>Data e hora</LabelModalRotina>
 
-            <ShadowDefault render={<InputRotina placeholder={``} />} />
+            <ShadowDefault
+              render={
+                <InputRotina
+                  placeholder={`DD/MM/AAAA HH:mm`}
+                  onChangeText={(txt) => setDataHora(mask(txt, '99/99/9999 99:99'))}
+                  keyboardType={"numeric"}
+                  value={dataHora}
+                />
+              }
+            />
           </View>
 
           <ShadowButton3
             render={
-              <ButtonModalRotina onPress={() => setVisible(false)}>
+              <ButtonModalRotina
+                onPress={() => {
+                  setVisible(false)
+                  tarefas.push({
+                    descricao: descricao,
+                    data: moment(dataHora, "DD/MM/YYYY HH:mm").format("YYYY-MM-DDTHH:mm:ss")
+                  })
+                  setDescricao(null)
+                  setDataHora(null)
+                }}
+              >
                 <TitleDefault style={{ color: `#8531C6` }}>
                   adicionar
                 </TitleDefault>
@@ -82,22 +118,50 @@ export const ModalRotina = ({ visible, setVisible }) => {
 export const ModalComentario = ({
   visible,
   setVisible,
-  comments,
   post,
-  setIdPostSelecionado
+  setPost,
+  user
 }) => {
 
   const [comentario, setComentario] = useState(null)
+  const [comments, setComments] = useState(null)
 
-  async function PostComment() {
+
+  async function PostComment(postId, userId) {
     await api.post('/Comentarios', {
-      idPostagem: post.id,
-      idUsuario: post.viagem.idUsuario,
-      comentarioTexto: comentario
+      idPostagem: postId,
+      idUsuario: userId,
+      comentarioTexto: comentario,
+      dataComentario: moment().format('YYYY-MM-DDTHH:mm:ss')
     })
-      .then((e) => console.log(e.data))
+      .then((e) => {
+        console.log('Post comentado')
+        setComentario(null)
+      })
       .catch((e) => console.log(e))
   }
+
+  async function GetComments(post) {
+    await api.get(`/Comentarios/${post.id}`)
+      .then((e) => {
+        setComments(e.data)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+  useEffect(() => {
+    if (post !== null) {
+      GetComments(post)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (post !== null) {
+      GetComments(post)
+    }
+  }, [comentario, post])
 
 
   return (
@@ -139,6 +203,7 @@ export const ModalComentario = ({
                 placeholder={`Comentar...`}
                 multiline={true}
                 onChangeText={(txt) => setComentario(txt)}
+                value={comentario}
               />
             }
           />
@@ -148,7 +213,9 @@ export const ModalComentario = ({
               render={
                 <ButtonViagem
                   bgColor={"#8531C6"}
-                  onPress={() => PostComment()}
+                  onPress={() => {
+                    PostComment(post.id, user.jti)
+                  }}
                 >
                   <TextButtonViagem style={{ color: `#fff` }}>
                     Adicionar Comentário
@@ -161,7 +228,10 @@ export const ModalComentario = ({
               render={
                 <ButtonViagem
                   bgColor={"#8531C6"}
-                  onPress={() => setVisible(false)}
+                  onPress={() => {
+                    setPost(null)
+                    setVisible(false)
+                  }}
                 >
                   <TextButtonViagem style={{ color: `#fff` }}>
                     Voltar
@@ -176,7 +246,51 @@ export const ModalComentario = ({
   );
 };
 
-export const CompartilharViagemModal = ({ navigation, visible, setVisible = null }) => {
+export const ModalCalendar = ({ visible, setVisible, date, setDate}) => {
+  return (
+    <Modal animationType="fade" transparent={true} visible={visible}>
+      <BackgroundModalRotina>
+        <ContainerCalendar>
+          <CalendarMaximized data={date} setData={setDate} />
+
+          <ShadowDefault
+            render={
+              <ButtonViagem
+                bgColor={`#8531c6`}
+                style={{ width: 200 }}
+                onPress={() => { setVisible(false) }}
+              >
+                <TextButtonViagem style={{ color: '#fff' }}>Selecionar</TextButtonViagem>
+              </ButtonViagem>
+            }
+          />
+
+          <ShadowDefault
+            render={
+              <ButtonViagem
+                style={{ width: 200 }}
+                onPress={() => {
+                  setVisible(false)
+                  setDate(null)
+                }}
+              >
+                <TextButtonViagem>Cancelar</TextButtonViagem>
+              </ButtonViagem>
+            }
+          />
+
+        </ContainerCalendar>
+      </BackgroundModalRotina>
+    </Modal>
+  )
+}
+
+export const CompartilharViagemModal = ({ navigation, visible, setVisible = null, idViagem }) => {
+  const HandleCompartilhar = () => {
+    setVisible(false)
+    navigation.navigate("CriarPost", { idViagem: idViagem })
+  }
+
   return (
     <Modal animationType="fade" visible={visible} transparent={true}>
       <BackgroundModalRotina>
@@ -188,7 +302,7 @@ export const CompartilharViagemModal = ({ navigation, visible, setVisible = null
           <ButtonModalBox>
             <ShadowButton3
               render={
-                <ButtonModal onPress={() => setVisible(false)}>
+                <ButtonModal onPress={() => HandleCompartilhar()}>
                   <TitleDefault style={{ color: `#8531C6` }}>
                     compartilhar
                   </TitleDefault>
@@ -204,11 +318,11 @@ export const CompartilharViagemModal = ({ navigation, visible, setVisible = null
               containerStyle={{ margin: 10, width: 250 }}
             >
               <ButtonModal
-                  onPress={() => navigation.replace("Viagens")}
-                  style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
-                >
-                  <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
-                </ButtonModal>
+                onPress={() => navigation.replace("main", { screen: "Viagens" })}
+                style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
+              >
+                <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
+              </ButtonModal>
             </Shadow>
           </ButtonModalBox>
         </ContainerModalCompartilhar>
@@ -217,7 +331,7 @@ export const CompartilharViagemModal = ({ navigation, visible, setVisible = null
   )
 }
 
-export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) => {
+export const ViagemIniciadaModal = ({ navigation, visible }) => {
   return (
     <Modal animationType="fade" visible={visible} transparent={true}>
       <BackgroundModalRotina>
@@ -229,28 +343,39 @@ export const ViagemIniciadaModal = ({ navigation, visible, setVisible = null }) 
           <ButtonModalBox>
             <ShadowButton3
               render={
-                <ButtonModal onPress={() => setVisible(false)}>
+                <ButtonModal onPress={() => navigation.replace("main", { screen: "Viagens" })}>
                   <TitleDefault style={{ color: `#8531C6` }}>
-                    Acompanhar viagem
+                    Confirmar
                   </TitleDefault>
                 </ButtonModal>
               }
             />
+          </ButtonModalBox>
+        </ContainerModalCompartilhar>
+      </BackgroundModalRotina>
+    </Modal>
+  )
+}
 
-            <Shadow
-              startColor="#000"
-              endColor="#000"
-              distance={0}
-              offset={[4, 4]}
-              containerStyle={{ margin: 10, width: 250 }}
-            >
-              <ButtonModal
-                  onPress={() => navigation.replace("Viagens")}
-                  style={{ backgroundColor: `#8531C6`, display: "flex", justifyContent: "center", alignItems: "center" }}
-                >
-                  <TitleDefault style={{ color: `#fff` }}>voltar</TitleDefault>
+export const ModalInformativo = ({ showModal, setShowModal, mensagem }) => {
+  return (
+    <Modal animationType="fade" visible={showModal} transparent={true}>
+      <BackgroundModalRotina>
+        <ContainerModalCompartilhar>
+          <TitleCompartilhar>Aviso!!!</TitleCompartilhar>
+
+          <TextModal>{mensagem}</TextModal>
+
+          <ButtonModalBox>
+            <ShadowButton3
+              render={
+                <ButtonModal onPress={() => setShowModal(false)}>
+                  <TitleDefault style={{ color: `#8531C6` }}>
+                    Prosseguir
+                  </TitleDefault>
                 </ButtonModal>
-            </Shadow>
+              }
+            />
           </ButtonModalBox>
         </ContainerModalCompartilhar>
       </BackgroundModalRotina>

@@ -3,16 +3,20 @@ import { Container } from "../../components/container/style";
 import {
   ButtonEdit,
   ContainerBio,
+  ContainerPerfil,
   ContentBio,
   ContentInfo,
+  ImageLogout,
+  ImageLogoutBox,
   ImageTop,
+  ImageTopBox,
   PerfilInfo,
   TextBio,
   TextInfo,
   UserImage,
 } from "./style";
 import { TitleDefault } from "../../components/Text/style";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GuiaPerfil } from "../../components/MenuGuia/MenuGuia";
 import { PostFeed } from "../../components/PostFeed/PostFeed";
 import { ButtonViagem, TextButtonViagem } from "../ViagemAtual/style";
@@ -24,59 +28,104 @@ import {
   ShadowPerfilImage,
 } from "../../components/Shadow";
 import { UserContext } from "../../contexts/MyContext";
+import { ModalComentario } from "../../components/Modal/index"
 
 import api from "../../service/Service";
+import { useFocusEffect } from "@react-navigation/native";
+import { TitleViagensFuturas } from "../ViagensFuturas/style";
 
-const mockFeed = [
-  {
-    title: "Pedro - Roma",
-    description:
-      "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
-    id: 1,
-  },
-  {
-    title: "Renato - Paris",
-    description:
-      "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
-    id: 2,
-  },
-  {
-    title: "Murilo - Japão",
-    description:
-      "Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.Mussum Ipsum, cacilds vidis litro abertis. Interagi no mé, cursus quis, vehicula ac nisi.",
-    id: 3,
-  },
-];
 
 export const Perfil = ({ navigation }) => {
   const [guia, setGuia] = useState(`posts`);
   const { user } = useContext(UserContext);
   const [response, setResponse] = useState(null);
+  const [userData, setUserData] = useState(null)
+
+  const [postData, setPostData] = useState(null)
+
+  const [likedPostData, setLikedPostData] = useState(null)
+
+  const [post, setPost] = useState(null)
+  const [modalComment, setModalComment] = useState(false)
+
+  const [dep, setDep] = useState(false)
 
   async function GetUser() {
-    const get = await api.get(`/Usuarios?idUsuario=${user.jti}`);
-    setResponse(get.data);
+    const get = await api.get(`/Usuarios/${user.jti}`
+    ).then(response => {
+      setUserData(response.data);
+    }).catch(error => {
+      console.log(error);
+    });
+
+  }
+
+  async function GetPosts() {
+    const get = await api.get(`/PostagensViagens/ListarPostagensProprias/${user.jti}`
+    ).then(response => {
+      setPostData(response.data);
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+
+  }
+  async function GetLikedPosts() {
+    const get = await api.get(`/PostagensViagens/ListarPostagensCurtidas/${user.jti}`
+    ).then(response => {
+
+      setLikedPostData(response.data);
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+
   }
 
   useEffect(() => {
     GetUser();
-    console.log(response);
-  }, [1000]);
+  }, []);
 
-  return (
-    <ScrollView>
-      <ImageTop source={require("../../assets/images/ImageTop.png")} />
-      <Container>
+  useFocusEffect(useCallback(() => {
+    GetUser()
+    GetLikedPosts()
+    GetPosts();
+  }, []));
+
+  useEffect(() => {
+    GetUser()
+    GetLikedPosts()
+    GetPosts();
+    console.log(dep)
+  }, [dep])
+
+
+
+  return userData !== null && (
+    <Container>
+
+      <ImageTopBox>
+        <ImageTop source={{ uri: 'https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/ImageTop.png' }} />
+      </ImageTopBox>
+
+
+
+      <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <PerfilInfo>
+          <ImageLogoutBox onPress={() => navigation.replace("Login")}>
+            <ImageLogout source={{ uri: 'https://voyagerblobstorage.blob.core.windows.net/voyagercontainerblob/Botao_Deslogar.png' }} />
+          </ImageLogoutBox>
           <ShadowPerfilImage>
             <UserImage
               source={{
-                uri: `https://github.com/AlbatrozPyt/VoyagerFrontEnd/blob/develop/Voyager/src/assets/images/PedroPerfil.png?raw=true`,
+                uri: userData.foto
               }}
             />
 
             <ButtonEdit
-              onPress={() => navigation.navigate(`EditPerfil`, { ...response })}
+              onPress={() => navigation.navigate(`EditPerfil`, { nome: userData.nome, bio: userData.bio, foto: userData.foto, enderecoUsuario: userData.enderecoUsuario })}
             >
               <Feather name="edit-2" size={24} color="#000" />
             </ButtonEdit>
@@ -84,7 +133,7 @@ export const Perfil = ({ navigation }) => {
 
           <ShadowBoxPerfil>
             <ContentInfo>
-              {/* <TextInfo>{response.nome}</TextInfo>; */}
+              <TextInfo>{userData.nome}</TextInfo>
               {/* <TextInfo>23 anos</TextInfo> */}
             </ContentInfo>
           </ShadowBoxPerfil>
@@ -94,11 +143,11 @@ export const Perfil = ({ navigation }) => {
           <TitleDefault>Sobre mim:</TitleDefault>
 
           <ShadowOpacity
+            styleRender={{ width: "100%" }}
             render={
               <ContentBio>
                 <TextBio>
-                  Sou fascinado por viajar, já rodei os 4 cantos da terra em
-                  busca de me conhencer melhor, vem com o papai kkk.
+                  {(userData.bio != null && userData.bio != "") ? userData.bio : "Adicione uma bio ao seu perfil em Editar Perfil"}
                 </TextBio>
               </ContentBio>
             }
@@ -109,22 +158,55 @@ export const Perfil = ({ navigation }) => {
 
         {guia === `posts` && (
           <ShadowButton2
+
             render={
-              <ButtonViagem onPress={() => navigation.navigate(`CriarPost`)}>
-                <TextButtonViagem>compartilhe sua viagem</TextButtonViagem>
+              <ButtonViagem onPress={() => navigation.navigate(`HistoricoViagens`)}>
+                <TextButtonViagem>compartilhe uma nova viagem</TextButtonViagem>
               </ButtonViagem>
             }
           />
         )}
 
-        {guia === "posts"
-          ? mockFeed.map((x) => {
-              return <PostFeed key={x.id} post={x} navigation={navigation} />;
+        {postData !== null && guia === 'posts' ?
+          postData.map((x) => {
+            return <PostFeed
+              key={x.id}
+              post={x}
+              navigation={navigation}
+              user={user}
+              setModalComment={setModalComment}
+              setPost={setPost}
+              screenBack={"Perfil"}
+              setDep={setDep}
+              dep={dep}
+            />;
+          })
+          : (likedPostData != null ?
+            likedPostData.map((x) => {
+              return <PostFeed
+                key={x.id}
+                post={x.postagemViagem}
+                navigation={navigation}
+                user={user}
+                setModalComment={setModalComment}
+                setPost={setPost}
+                screenBack={"Perfil"}
+                setDep={setDep}
+                dep={dep}
+              />;
             })
-          : mockFeed.map((x) => {
-              return <PostFeed key={x.id} post={x} navigation={navigation} />;
-            })}
-      </Container>
-    </ScrollView>
-  );
+            : null)
+        }
+
+        <ModalComentario
+          post={post}
+          setPost={setPost}
+          visible={modalComment}
+          setVisible={setModalComment}
+          user={user}
+        />
+      </ScrollView>
+
+    </Container>
+  )
 };
