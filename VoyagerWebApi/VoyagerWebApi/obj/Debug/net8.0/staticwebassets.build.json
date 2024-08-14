@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6XS4Csbg3HlmCOpx4Rdc6jdQefL8Oms4UtFptT+z9Ns=",
+  "Source": "VoyagerWebApi",
+  "BasePath": "_content/VoyagerWebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
